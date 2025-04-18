@@ -1,0 +1,64 @@
+.addUserHeader {
+  border-bottom: 2px solid #e5e5e5;
+  padding: 5px 10px;
+}
+
+.addUserContainer {
+  display: flex;
+  padding: 20px;
+}
+
+.addUserBox {
+  border: none;
+  background-color: #fff;
+  border-radius: 4px;
+  .addUserHeader {
+    border-bottom: 2px solid #e5e5e5;
+    padding: 5px 10px;
+  }
+
+  .addUserContainer {
+    display: flex;
+    padding: 20px;
+    height: 100%;
+  }
+
+  .addUserBox {
+    border: none;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.203);
+    height: 500px;
+    width: 80%;
+    padding: 10px;
+  }
+
+  .addUserForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .addUserFormContainer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.203);
+  height: 500px;
+  width: 80%;
+  padding: 10px;
+}
+
+.addUserForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  padding: 10px;
+}
+
+.addUserFormContainer {
+  display: flex;
+  flex-direction: column;
+}

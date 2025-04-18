@@ -1,0 +1,44 @@
+.footerContainer {
+  flex-shrink: 0;
+  background-color: #ededed;
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background-color: #ededed;
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  position: relative;
+  bottom: 0;
+}
+
+.followContainer,
+.policyContainer,
+.copyrightContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.copyrightContainer {
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.links {
+  text-decoration: none;
+  color: #000;
+}
+
+.logo {
+  height: 50px;
+  width: 150px;
+  object-fit: contain;
+}

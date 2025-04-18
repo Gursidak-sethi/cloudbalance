@@ -1,0 +1,38 @@
+.dropdownContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownToggle {
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  z-index: 1000;
+  background: #fff;
+  width: 400px;
+  padding: 10px;
+  display: flex;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+  gap: 20px;
+}
+
+.dualList {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 0;
+}

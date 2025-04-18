@@ -1,0 +1,68 @@
+.onboardList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  counter-reset: step;
+  list-style: none;
+  padding-left: 0;
+}
+
+.onboardInputs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.onboardList li {
+  counter-increment: step;
+  margin-bottom: 20px;
+  position: relative;
+  padding-left: 40px;
+}
+
+.onboardList li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: #7790aa;
+  color: white;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.onboardJsonBox,
+.onboardCopyText {
+  margin-top: 10px;
+  height: 250px;
+  width: 80%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #efefef;
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  color: #00226d;
+  cursor: pointer;
+  display: flex;
+}
+.onboardJsonBox {
+  justify-content: space-between;
+}
+.onboardJsonBox:hover,
+.onboardCopyText:hover {
+  border: 1.5px solid #00226d;
+}
+
+.onboardCopyText {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  width: 250px;
+}

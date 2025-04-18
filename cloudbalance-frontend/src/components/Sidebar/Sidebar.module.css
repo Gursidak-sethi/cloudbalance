@@ -1,0 +1,40 @@
+.sidebarOpen,
+.sidebarClosed {
+  height: 100%;
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+  transition: all linear 0.1s;
+  padding-top: 8px;
+}
+
+.sidebarClosed {
+  width: 5%;
+}
+
+.sidebarBtn {
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.dashboardLinks,
+.dashboardLinksActive {
+  text-decoration: none;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 40px;
+  width: 100%;
+}
+
+.dashboardLinks:hover {
+  background-color: #878787;
+}
+
+.dashboardLinksActive {
+  background-color: #4398d7;
+}

@@ -1,0 +1,40 @@
+.onboardingFormContainer {
+  background-color: #fff;
+  width: 90%;
+  text-wrap: wrap;
+  margin-top: 10px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  padding: 30px 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.backBtn,
+.onboardBtn,
+.onboardBtnDisabled {
+  border: none;
+  height: 30px;
+  width: auto;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.onboardBtnDisabled {
+  background-color: #8d8d8d;
+  color: #fff;
+}
+
+.onboardBtn {
+  background-color: #0046dd;
+  color: #fff;
+  font-weight: 700;
+}
+
+.backBtn {
+  border: 1px solid #0046dd;
+  background-color: #fff;
+  color: #0046dd;
+  font-weight: 600;
+}
