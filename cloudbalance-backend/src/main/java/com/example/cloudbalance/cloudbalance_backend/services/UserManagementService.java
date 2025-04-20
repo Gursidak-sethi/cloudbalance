@@ -1,8 +1,8 @@
 package com.example.cloudbalance.cloudbalance_backend.services;
 
-import com.example.cloudbalance.cloudbalance_backend.dto.RequestDTO.UserDTO;
-import com.example.cloudbalance.cloudbalance_backend.dto.ResponseDTO.AccountDTO;
-import com.example.cloudbalance.cloudbalance_backend.dto.ResponseDTO.UserInfoResponseDTO;
+import com.example.cloudbalance.cloudbalance_backend.dto.request.UserDTO;
+import com.example.cloudbalance.cloudbalance_backend.dto.response.AccountDTO;
+import com.example.cloudbalance.cloudbalance_backend.dto.response.UserInfoResponseDTO;
 import com.example.cloudbalance.cloudbalance_backend.entities.Account;
 import com.example.cloudbalance.cloudbalance_backend.entities.User;
 import com.example.cloudbalance.cloudbalance_backend.repositories.AccountRepository;

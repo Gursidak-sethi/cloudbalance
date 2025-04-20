@@ -25,7 +25,10 @@ const DashboardLayout = () => {
           toggleSidebar={toggleSidebar}
         />
       ) : null}
-      <div className={styles.dashboardContainer}>
+      <div
+        className={styles.dashboardContainer}
+        style={{ marginLeft: isOpen ? "15%" : "5%" }}
+      >
         <Outlet />
       </div>
     </div>

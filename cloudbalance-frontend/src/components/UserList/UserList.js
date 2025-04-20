@@ -2,9 +2,11 @@ import React from "react";
 import styles from "./UserList.module.css";
 import EditSquareIcon from "@mui/icons-material/EditSquare";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const UserList = ({ users }) => {
   const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.auth.currentUser);
   const formatDate = (responseDate) => {
     if (!responseDate) return "-";
 
@@ -65,6 +67,7 @@ const UserList = ({ users }) => {
                 <button
                   className={styles.userEditBtn}
                   onClick={() => handleEdit(user)}
+                  disabled={currentUser.role !== "ADMIN" ? true : false}
                 >
                   <EditSquareIcon fontSize="24px" />
                 </button>

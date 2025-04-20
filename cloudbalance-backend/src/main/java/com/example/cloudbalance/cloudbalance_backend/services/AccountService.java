@@ -1,7 +1,7 @@
 package com.example.cloudbalance.cloudbalance_backend.services;
 
-import com.example.cloudbalance.cloudbalance_backend.dto.RequestDTO.AccountRequestDTO;
-import com.example.cloudbalance.cloudbalance_backend.dto.ResponseDTO.AccountDTO;
+import com.example.cloudbalance.cloudbalance_backend.dto.request.AccountRequestDTO;
+import com.example.cloudbalance.cloudbalance_backend.dto.response.AccountDTO;
 import com.example.cloudbalance.cloudbalance_backend.entities.Account;
 import com.example.cloudbalance.cloudbalance_backend.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;

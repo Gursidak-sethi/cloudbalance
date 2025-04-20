@@ -16,11 +16,18 @@ const Navbar = () => {
     <div className={styles.navbarContainer}>
       <img src={logo} alt="CloudBalance" className={styles.logo} />
       <div style={{ display: "flex", gap: 20 }}>
-        <div style={{ display: "flex", color: "#253e66", fontWeight: 600 }}>
+        <div
+          style={{
+            display: "flex",
+            color: "#253e66",
+            fontWeight: 600,
+            alignItems: "center",
+          }}
+        >
           <AccountCircleIcon style={{ fontSize: 36 }} />
           <div>
-            <div>Welcome</div>
-            {currentUser.username}
+            <div>{currentUser.username}</div>
+            <div style={{ fontSize: 12 }}>{currentUser.role}</div>
           </div>
           <div></div>
         </div>

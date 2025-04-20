@@ -1,6 +1,5 @@
 package com.example.cloudbalance.cloudbalance_backend.controllers;
-import com.example.cloudbalance.cloudbalance_backend.dto.RequestDTO.UserDTO;
-import com.example.cloudbalance.cloudbalance_backend.entities.User;
+import com.example.cloudbalance.cloudbalance_backend.dto.request.UserDTO;
 import com.example.cloudbalance.cloudbalance_backend.services.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

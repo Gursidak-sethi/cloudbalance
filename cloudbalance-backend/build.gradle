@@ -40,7 +40,10 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.6'
-
+	implementation 'software.amazon.awssdk:ec2:2.20.0'
+	implementation 'software.amazon.awssdk:rds:2.20.0'
+	implementation 'software.amazon.awssdk:autoscaling:2.20.0'
+	implementation 'software.amazon.awssdk:sts:2.20.0'
 }
 
 tasks.named('test') {

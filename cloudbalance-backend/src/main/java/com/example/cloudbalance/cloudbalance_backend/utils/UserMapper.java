@@ -1,6 +1,6 @@
 package com.example.cloudbalance.cloudbalance_backend.utils;
 
-import com.example.cloudbalance.cloudbalance_backend.dto.RequestDTO.UserDTO;
+import com.example.cloudbalance.cloudbalance_backend.dto.request.UserDTO;
 import com.example.cloudbalance.cloudbalance_backend.entities.Role;
 import com.example.cloudbalance.cloudbalance_backend.entities.User;
 

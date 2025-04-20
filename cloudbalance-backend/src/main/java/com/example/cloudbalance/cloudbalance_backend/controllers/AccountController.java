@@ -1,9 +1,7 @@
 package com.example.cloudbalance.cloudbalance_backend.controllers;
 
-import com.example.cloudbalance.cloudbalance_backend.dto.RequestDTO.AccountRequestDTO;
-import com.example.cloudbalance.cloudbalance_backend.entities.Account;
+import com.example.cloudbalance.cloudbalance_backend.dto.request.AccountRequestDTO;
 import com.example.cloudbalance.cloudbalance_backend.services.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

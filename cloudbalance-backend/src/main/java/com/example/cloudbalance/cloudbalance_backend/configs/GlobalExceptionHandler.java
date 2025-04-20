@@ -1,6 +1,6 @@
 package com.example.cloudbalance.cloudbalance_backend.configs;
 
-import com.example.cloudbalance.cloudbalance_backend.dto.ResponseDTO.NotAuthorizedResponse;
+import com.example.cloudbalance.cloudbalance_backend.dto.response.NotAuthorizedResponse;
 import com.example.cloudbalance.cloudbalance_backend.exceptions.NotAuthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

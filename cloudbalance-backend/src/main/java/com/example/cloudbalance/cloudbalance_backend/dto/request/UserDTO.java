@@ -1,6 +1,5 @@
-package com.example.cloudbalance.cloudbalance_backend.dto.RequestDTO;
+package com.example.cloudbalance.cloudbalance_backend.dto.request;
 
-import com.example.cloudbalance.cloudbalance_backend.dto.ResponseDTO.AccountDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

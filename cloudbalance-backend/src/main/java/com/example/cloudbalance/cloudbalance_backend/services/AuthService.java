@@ -1,6 +1,6 @@
 package com.example.cloudbalance.cloudbalance_backend.services;
 
-import com.example.cloudbalance.cloudbalance_backend.dto.RequestDTO.LoginRequestDTO;
+import com.example.cloudbalance.cloudbalance_backend.dto.request.LoginRequestDTO;
 import org.springframework.http.ResponseEntity;
 
 public interface AuthService {

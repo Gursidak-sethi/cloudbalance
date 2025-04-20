@@ -1,10 +1,10 @@
 package com.example.cloudbalance.cloudbalance_backend.services.AuthServiceImpl;
 
-import com.example.cloudbalance.cloudbalance_backend.dto.RequestDTO.LoginRequestDTO;
-import com.example.cloudbalance.cloudbalance_backend.dto.ResponseDTO.AccountDTO;
-import com.example.cloudbalance.cloudbalance_backend.dto.ResponseDTO.DashboardDTO;
-import com.example.cloudbalance.cloudbalance_backend.dto.ResponseDTO.LoginResponseDTO;
-import com.example.cloudbalance.cloudbalance_backend.dto.ResponseDTO.UserInfoResponseDTO;
+import com.example.cloudbalance.cloudbalance_backend.dto.request.LoginRequestDTO;
+import com.example.cloudbalance.cloudbalance_backend.dto.response.AccountDTO;
+import com.example.cloudbalance.cloudbalance_backend.dto.response.DashboardDTO;
+import com.example.cloudbalance.cloudbalance_backend.dto.response.LoginResponseDTO;
+import com.example.cloudbalance.cloudbalance_backend.dto.response.UserInfoResponseDTO;
 import com.example.cloudbalance.cloudbalance_backend.entities.*;
 import com.example.cloudbalance.cloudbalance_backend.repositories.BlacklistTokenRepository;
 import com.example.cloudbalance.cloudbalance_backend.repositories.DashboardRepository;

@@ -1,9 +1,8 @@
 package com.example.cloudbalance.cloudbalance_backend.controllers;
 
-import com.example.cloudbalance.cloudbalance_backend.dto.RequestDTO.LoginRequestDTO;
+import com.example.cloudbalance.cloudbalance_backend.dto.request.LoginRequestDTO;
 import com.example.cloudbalance.cloudbalance_backend.services.AuthServiceImpl.AuthServiceImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

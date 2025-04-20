@@ -6,6 +6,8 @@
   flex-direction: column;
   transition: all linear 0.1s;
   padding-top: 8px;
+  position: fixed;
+  z-index: 5;
 }
 
 .sidebarClosed {
