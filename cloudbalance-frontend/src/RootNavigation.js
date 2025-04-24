@@ -11,7 +11,7 @@ import Dashboard from "./screens/DashboardLayout/DashboardLayout";
 import AddUser from "./screens/AddUser/AddUser";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setCurrentUser } from "./redux/actions";
+import { setCurrentUser } from "./redux/actions/authActions";
 import { toast } from "react-toastify";
 import UserInit from "./Routes/UserInit";
 import Thankyou from "./Routes/Thankyou";

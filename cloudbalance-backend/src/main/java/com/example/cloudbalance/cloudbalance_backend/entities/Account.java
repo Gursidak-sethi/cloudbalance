@@ -12,7 +12,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Account{
     @Id
+    @Column(name = "account_id")
     private String accountId;
+
+    @Column(name = "account_name")
     private String accountName;
+
+    @Column(name = "arn")
     private String arn;
 }

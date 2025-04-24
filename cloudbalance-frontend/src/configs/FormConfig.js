@@ -1,4 +1,4 @@
-const FormConfig = [
+export const LoginFormConfig = [
   {
     id: "username",
     properties: {
@@ -19,5 +19,3 @@ const FormConfig = [
     },
   },
 ];
-
-export default FormConfig;

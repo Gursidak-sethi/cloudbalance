@@ -1,6 +1,6 @@
 // utils/handleLogout.js
 import axios from "axios";
-import { logout as logoutAction } from "../redux/actions";
+import { logout as logoutAction } from "../redux/actions/authActions";
 
 const handleLogout = (dispatch, navigate) => {
   const token = localStorage.getItem("token");
@@ -19,7 +19,7 @@ const handleLogout = (dispatch, navigate) => {
   dispatch(logoutAction());
   // Remove from localStorage
   localStorage.removeItem("token");
-
+  localStorage.removeItem("selectedAccountId");
   // toast.success("Logged Out successfully");
 
   if (navigate) navigate("/login");

@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import arnImg from "../../images/ARNCopy.png";
 import Input from "../Input/Input";
 import { useDispatch, useSelector } from "react-redux";
-import { updateField } from "../../redux/onboardActions";
+import { updateField } from "../../redux/actions/onboardActions";
 import styles from "./StepForm.module.css";
 import { CustomTrustPolicy } from "../../utils/Policies";
-const StepForm1 = ({ textRef, handleCopy, CopyIcon }) => {
+const StepForm1 = ({ handleCopy, CopyIcon }) => {
   const { accountId, accountName, arn } = useSelector((state) => state.onboard);
   const dispatch = useDispatch();
 
@@ -21,8 +21,7 @@ const StepForm1 = ({ textRef, handleCopy, CopyIcon }) => {
         the policy provided below -
         <pre
           className={styles.onboardJsonBox}
-          ref={textRef}
-          onClick={handleCopy}
+          onClick={() => handleCopy(JSON.stringify(CustomTrustPolicy, null, 2))}
         >
           {JSON.stringify(CustomTrustPolicy, null, 2)}
           <CopyIcon />
@@ -41,8 +40,7 @@ const StepForm1 = ({ textRef, handleCopy, CopyIcon }) => {
         </div>
         <div
           className={styles.onboardCopyText}
-          ref={textRef}
-          onClick={handleCopy}
+          onClick={() => handleCopy("CK-Tuner-Role-dev2")}
         >
           <CopyIcon />
           CK-Tuner-Role-dev2

@@ -1,0 +1,46 @@
+.resourceBtn {
+  height: 30px;
+  width: 60px;
+  border: 1px solid #a1a1a1;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.resourceBtn:hover {
+  background-color: #d2d2d2;
+}
+
+.btnActive {
+  background-color: rgba(67, 151, 215, 0.216);
+  color: #253e66;
+  border: 1px solid #253e66;
+}
+
+.submitBtn {
+  height: 40px;
+  width: 350px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  background-color: #4398d7;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color linear 0.3s;
+}
+
+.submitBtn:hover {
+  background-color: #253e66;
+}
+
+.editBtn {
+  width: 80px;
+  height: 30px;
+  font-size: 16px;
+}
+
+.editIcon {
+  background-color: transparent;
+  border: none;
+}

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import FormConfig from "../../configs/FormConfig";
+import { LoginFormConfig } from "../../configs/FormConfig";
 import Input from "../../components/Input/Input";
-import SubmitBtn from "../../components/SubmitBtn/SubmitBtn";
 import axios from "axios";
 import styles from "./LoginScreen.module.css";
 import logo from "../../images/logo.png";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Button from "../../components/Button/Button";
 
 const LoginScreen = () => {
   const [enteredData, setEnteredData] = useState({
@@ -18,7 +18,6 @@ const LoginScreen = () => {
     },
   });
   const navigate = useNavigate();
-
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     let error = "";
@@ -92,7 +91,7 @@ const LoginScreen = () => {
     <div className={styles.loginContainer}>
       <img src={logo} alt="CloudBalance" className={styles.logo} />
       <form onSubmit={handleSubmit} className={styles.loginForm}>
-        {FormConfig.map((field) => (
+        {LoginFormConfig.map((field) => (
           <div key={field.id}>
             <Input
               type={field.properties.type}
@@ -110,7 +109,7 @@ const LoginScreen = () => {
             )}
           </div>
         ))}
-        <SubmitBtn text={"Login"} />
+        <Button text={"Login"} type={"submit"} btnStyle={"loginBtn"} />
       </form>
     </div>
   );

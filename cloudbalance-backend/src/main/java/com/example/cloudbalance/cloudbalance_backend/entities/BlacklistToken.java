@@ -15,8 +15,11 @@ import java.util.Date;
 public class BlacklistToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "blacklist_id")
     private Long blacklistId;
 
     private String token;
+
+    @Column(name = "expiry_date")
     private Date expiryDate;
 }

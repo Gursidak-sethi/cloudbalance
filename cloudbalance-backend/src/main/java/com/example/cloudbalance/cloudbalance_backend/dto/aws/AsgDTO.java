@@ -8,8 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AsgDTO {
-    private String name;
+    private String resourceId;
+    private String resourceName;
+    private String region;
+    private int desiredCapacity;
     private int minSize;
     private int maxSize;
-    private int desiredCapacity;
+    private String status;
 }

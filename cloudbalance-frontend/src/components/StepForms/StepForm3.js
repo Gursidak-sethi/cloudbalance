@@ -4,7 +4,7 @@ import ReportDetails from "../../images/ReportDetails.png";
 import ConfigureS3Buckets from "../../images/ConfigureS3Buckets.png";
 import ReportDeliver from "../../images/ReportDeliver.png";
 import styles from "./StepForm.module.css";
-const StepForm3 = ({ textRef, handleCopy }) => {
+const StepForm3 = ({ handleCopy }) => {
   return (
     <ol className={styles.onboardList}>
       <li className={styles.listItem}>
@@ -18,7 +18,10 @@ const StepForm3 = ({ textRef, handleCopy }) => {
         Name the report as shown below and select the{" "}
         <strong>Include resource IDs </strong>
         checkbox -
-        <div className={styles.onboardCopyText}>
+        <div
+          className={styles.onboardCopyText}
+          onClick={() => handleCopy("ck-tuner-275595855473-hourly-cur")}
+        >
           ck-tuner-275595855473-hourly-cur
         </div>
         <div>
@@ -81,7 +84,12 @@ const StepForm3 = ({ textRef, handleCopy }) => {
           <span style={{ color: "#777", fontSize: 14 }}>
             Report path prefix:
           </span>
-          <div className={styles.onboardCopyText}>275595855473</div>
+          <div
+            className={styles.onboardCopyText}
+            onClick={() => handleCopy("275595855473")}
+          >
+            275595855473
+          </div>
         </div>
         <div>
           <div style={{ color: "#777", fontSize: 14 }}>

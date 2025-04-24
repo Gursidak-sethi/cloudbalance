@@ -1,15 +1,21 @@
 server:
   port: 8082
 
-spring:
+mysql:
   datasource:
     url: jdbc:mysql://localhost:3306/cloudbalance
     username: root
     password: Gursidak@1802
     driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      ddl-auto: update
-    show-sql: true
 
+
+aws:
+  region: us-east-1
+
+snowflake:
+  datasource:
+    url: jdbc:snowflake://YFYRZGG-BWB35436.snowflakecomputing.com/?warehouse=COMPUTE_WH&db=aws&schema=cost
+    username: ro_user
+    password: fRe$her@b00tc@mp2025
+    warehouse: COMPUTE_WH
+    driver-class-name: net.snowflake.client.jdbc.SnowflakeDriver

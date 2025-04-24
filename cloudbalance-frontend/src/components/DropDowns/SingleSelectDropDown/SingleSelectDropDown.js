@@ -1,6 +1,6 @@
 import React from "react";
 
-const SingleSelectDropDown = ({ roles, value, onChange, error }) => {
+const SingleSelectDropDown = ({ options, value, onChange, error }) => {
   return (
     <div style={{ marginBottom: "1rem" }}>
       <label htmlFor="role">Role:&nbsp;</label>
@@ -12,7 +12,7 @@ const SingleSelectDropDown = ({ roles, value, onChange, error }) => {
         style={{ padding: "6px", width: "200px" }}
       >
         <option value="">Select Role</option>
-        {roles.map((role) => (
+        {options.map((role) => (
           <option key={role} value={role}>
             {role}
           </option>

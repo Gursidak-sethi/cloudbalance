@@ -1,0 +1,27 @@
+.table {
+  width: 100%;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.td {
+  width: 150px;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.td,
+.th {
+  padding: 5px;
+}
+
+.th {
+  background-color: rgba(67, 151, 215, 0.536);
+  color: #253e66;
+}
+
+.tr:nth-child(odd) {
+  background-color: #efefef;
+}

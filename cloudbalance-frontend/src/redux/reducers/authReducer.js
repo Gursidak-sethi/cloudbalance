@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, LOGOUT } from "./actions";
+import { SET_CURRENT_USER, LOGOUT } from "../actions/authActions";
 
 const initialState = {
   token: null,

@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setCurrentUser } from "../redux/actions";
+import { setCurrentUser } from "../redux/actions/authActions";
 import { toast } from "react-toastify";
 import handleLogout from "../utils/Logout";
 

@@ -2,12 +2,12 @@ import React, { useState, useCallback } from "react";
 import styles from "./AddUser.module.css";
 import AddUserConfig from "../../configs/AddUserFormConfig";
 import Input from "../../components/Input/Input";
-import SubmitBtn from "../../components/SubmitBtn/SubmitBtn";
 import SingleSelectDropDown from "../../components/DropDowns/SingleSelectDropDown/SingleSelectDropDown";
 import MultiSelectDropDown from "../../components/DropDowns/MultiSelectDropDown/MultiSelectDropDown";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Button from "../../components/Button/Button";
 
 const AddUser = () => {
   const navigate = useNavigate();
@@ -135,7 +135,7 @@ const AddUser = () => {
               {AddUserConfig.map((field) => (
                 <div key={field.id}>
                   <Input
-                    width={300}
+                    width={250}
                     type={field.properties.type}
                     id={field.id}
                     name={field.properties.name}
@@ -152,7 +152,7 @@ const AddUser = () => {
                 </div>
               ))}
               <SingleSelectDropDown
-                roles={["ADMIN", "READ_ONLY", "CUSTOMER"]}
+                options={["ADMIN", "READ_ONLY", "CUSTOMER"]}
                 value={currentState.role}
                 onChange={handleChange}
               />
@@ -164,7 +164,7 @@ const AddUser = () => {
                 />
               )}
               <div style={{ gridColumn: 3, justifySelf: "flex-end" }}>
-                <SubmitBtn text={"Add"} height={30} width={80} />
+                <Button text={"Add"} type={"submit"} btnStyle={"editBtn"} />
               </div>
             </form>
           </div>

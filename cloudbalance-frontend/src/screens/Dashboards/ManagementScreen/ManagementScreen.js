@@ -36,8 +36,9 @@ const ManagementScreen = () => {
   const handleAddUser = () => {
     navigate("create");
   };
+
   return (
-    <div style={{ height: "calc(100% - 50px)" }}>
+    <div>
       <h1 className={styles.managementHeader}>Users</h1>
       <div className={styles.userContainer}>
         <div className={styles.userBox}>

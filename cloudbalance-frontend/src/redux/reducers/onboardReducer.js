@@ -1,4 +1,4 @@
-import { RESET_FORM, UPDATE_FIELD } from "./onboardActions";
+import { RESET_FORM, UPDATE_FIELD } from "../actions/onboardActions";
 
 const initialState = {
   accountId: "",

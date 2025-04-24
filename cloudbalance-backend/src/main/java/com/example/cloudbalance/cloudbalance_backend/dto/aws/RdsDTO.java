@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RdsDTO {
-    private String dbIdentifier;
+    private String resourceId;
+    private String resourceName;
     private String engine;
+    private String region;
     private String status;
 }

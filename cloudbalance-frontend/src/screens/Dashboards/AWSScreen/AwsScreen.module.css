@@ -1,0 +1,14 @@
+.awsContainer {
+  height: calc(100vh - 160px);
+}
+
+.awsTableContainer {
+  background-color: #fff;
+  padding: 10px;
+  margin: 10px;
+  /* width: 100%; */
+  border-radius: 4px;
+  box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.114);
+  height: 85%;
+  overflow-y: auto;
+}

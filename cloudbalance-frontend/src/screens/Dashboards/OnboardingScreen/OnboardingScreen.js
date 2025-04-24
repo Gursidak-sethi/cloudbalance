@@ -4,7 +4,7 @@ import styles from "./OnboardingScreen.module.css";
 import StepForm1 from "../../../components/StepForms/StepForm1";
 import StepForm2 from "../../../components/StepForms/StepForm2";
 import StepForm3 from "../../../components/StepForms/StepForm3";
-import { resetForm } from "../../../redux/onboardActions";
+import { resetForm } from "../../../redux/actions/onboardActions";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -21,9 +21,8 @@ const OnboardingScreen = () => {
       ? false
       : true;
 
-  const textRef = useRef();
-  const handleCopy = () => {
-    const text = textRef.current.innerText;
+  // const textRef = useRef();
+  const handleCopy = (text) => {
     navigator.clipboard
       .writeText(text)
       .then(() => toast.success("Copied to clipboard!"))
@@ -34,33 +33,21 @@ const OnboardingScreen = () => {
       title: "Create an IAM Role",
       subTitle: "Create an IAM Role by following these steps",
       component: (
-        <StepForm1
-          textRef={textRef}
-          handleCopy={handleCopy}
-          CopyIcon={ContentCopyIcon}
-        />
+        <StepForm1 handleCopy={handleCopy} CopyIcon={ContentCopyIcon} />
       ),
     },
     {
       title: "Add Customer Managed Policies",
       subTitle: "Create an Inline policy for the role by following these steps",
       component: (
-        <StepForm2
-          textRef={textRef}
-          handleCopy={handleCopy}
-          CopyIcon={ContentCopyIcon}
-        />
+        <StepForm2 handleCopy={handleCopy} CopyIcon={ContentCopyIcon} />
       ),
     },
     {
       title: "Create Cost & Usage Report",
       subTitle: "Create Cost & Usage Report by following these steps",
       component: (
-        <StepForm3
-          textRef={textRef}
-          handleCopy={handleCopy}
-          CopyIcon={ContentCopyIcon}
-        />
+        <StepForm3 handleCopy={handleCopy} CopyIcon={ContentCopyIcon} />
       ),
     },
   ];

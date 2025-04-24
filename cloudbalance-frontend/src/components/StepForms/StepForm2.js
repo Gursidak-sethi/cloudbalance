@@ -11,7 +11,7 @@ import {
   JsonPolicy3,
   S3ReplicationCheckPolicy,
 } from "../../utils/Policies";
-const StepForm2 = ({ textRef, handleCopy }) => {
+const StepForm2 = ({ handleCopy }) => {
   return (
     <ol className={styles.onboardList}>
       <li className={styles.listItem}>
@@ -21,8 +21,7 @@ const StepForm2 = ({ textRef, handleCopy }) => {
         Click on the JSON tab and paste the following policy and click on Next:
         <pre
           className={styles.onboardJsonBox}
-          ref={textRef}
-          onClick={handleCopy}
+          onClick={() => handleCopy(JSON.stringify(JsonPolicy, null, 2))}
         >
           {JSON.stringify(JsonPolicy, null, 2)}
         </pre>
@@ -32,8 +31,7 @@ const StepForm2 = ({ textRef, handleCopy }) => {
         Policy
         <div
           className={styles.onboardCopyText}
-          ref={textRef}
-          onClick={handleCopy}
+          onClick={() => handleCopy("cktuner-CostAuditPolicy")}
         >
           cktuner-CostAuditPolicy
         </div>
@@ -45,8 +43,7 @@ const StepForm2 = ({ textRef, handleCopy }) => {
         Click on the JSON tab and paste the following policy and click on Next:
         <pre
           className={styles.onboardJsonBox}
-          ref={textRef}
-          onClick={handleCopy}
+          onClick={() => handleCopy(JSON.stringify(JsonPolicy2, null, 2))}
         >
           {JSON.stringify(JsonPolicy2, null, 2)}
         </pre>
@@ -56,8 +53,7 @@ const StepForm2 = ({ textRef, handleCopy }) => {
         Policy
         <div
           className={styles.onboardCopyText}
-          ref={textRef}
-          onClick={handleCopy}
+          onClick={() => handleCopy("cktuner-SecAuditPolicy")}
         >
           cktuner-SecAuditPolicy
         </div>
@@ -70,8 +66,7 @@ const StepForm2 = ({ textRef, handleCopy }) => {
         Click on the JSON tab and paste the following policy and click on Next:
         <pre
           className={styles.onboardJsonBox}
-          ref={textRef}
-          onClick={handleCopy}
+          onClick={() => handleCopy(JSON.stringify(JsonPolicy3, null, 2))}
         >
           {JSON.stringify(JsonPolicy3, null, 2)}
         </pre>
@@ -81,8 +76,7 @@ const StepForm2 = ({ textRef, handleCopy }) => {
         Policy
         <div
           className={styles.onboardCopyText}
-          ref={textRef}
-          onClick={handleCopy}
+          onClick={() => handleCopy("cktuner-TunerReadEssentials")}
         >
           cktuner-TunerReadEssentials
         </div>
@@ -134,8 +128,9 @@ const StepForm2 = ({ textRef, handleCopy }) => {
         Click on the JSON tab and paste the following policy
         <pre
           className={styles.onboardJsonBox}
-          ref={textRef}
-          onClick={handleCopy}
+          onClick={() =>
+            handleCopy(JSON.stringify(S3ReplicationCheckPolicy, null, 2))
+          }
         >
           {JSON.stringify(S3ReplicationCheckPolicy, null, 2)}
         </pre>
@@ -149,8 +144,7 @@ const StepForm2 = ({ textRef, handleCopy }) => {
         <strong>Create Policy</strong>
         <div
           className={styles.onboardCopyText}
-          ref={textRef}
-          onClick={handleCopy}
+          onClick={() => handleCopy("S3CrossAccountReplication")}
         >
           S3CrossAccountReplication
         </div>

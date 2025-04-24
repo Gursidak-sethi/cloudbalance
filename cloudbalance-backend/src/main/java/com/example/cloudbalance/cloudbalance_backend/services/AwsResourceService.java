@@ -6,6 +6,7 @@ import com.example.cloudbalance.cloudbalance_backend.dto.aws.RdsDTO;
 import com.example.cloudbalance.cloudbalance_backend.repositories.AccountRepository;
 import com.example.cloudbalance.cloudbalance_backend.utils.aws.AwsRoleAssumer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
@@ -14,6 +15,7 @@ import software.amazon.awssdk.services.autoscaling.model.DescribeAutoScalingGrou
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.DescribeInstancesResponse;
 import software.amazon.awssdk.services.ec2.model.Instance;
+import software.amazon.awssdk.services.ec2.model.Tag;
 import software.amazon.awssdk.services.rds.RdsClient;
 import software.amazon.awssdk.services.rds.model.DescribeDbInstancesResponse;
 
@@ -21,6 +23,9 @@ import java.util.List;
 
 @Service
 public class AwsResourceService {
+
+    @Value("${aws.region}")
+    private String awsRegion;
 
     @Autowired
     private AwsRoleAssumer roleAssumer;
@@ -45,7 +50,8 @@ public class AwsResourceService {
 
         return instances.stream().map(instance -> new Ec2DTO(
                 instance.instanceId(),
-                instance.instanceTypeAsString(),
+                instance.tags().stream().filter(tag -> "Name".equals(tag.key())).map(Tag::value).findFirst().orElse("N/A"),
+                awsRegion,
                 instance.state().nameAsString()
         )).toList();
     }
@@ -53,17 +59,18 @@ public class AwsResourceService {
     public List<RdsDTO> fetchRDSInstances(String accountId) {
         String arn = getArnFromAccountId(accountId);
         AwsCredentialsProvider credentials = roleAssumer.createCredentials(arn);
-
+        System.out.println(credentials.toString());
         RdsClient rdsClient = RdsClient.builder()
                 .credentialsProvider(credentials)
                 .region(Region.US_EAST_1)
                 .build();
 
         DescribeDbInstancesResponse response = rdsClient.describeDBInstances();
-
         return response.dbInstances().stream().map(db -> new RdsDTO(
+                db.dbInstanceArn(),
                 db.dbInstanceIdentifier(),
                 db.engine(),
+                awsRegion,
                 db.dbInstanceStatus()
         )).toList();
     }
@@ -80,10 +87,13 @@ public class AwsResourceService {
         DescribeAutoScalingGroupsResponse response = asgClient.describeAutoScalingGroups();
 
         return response.autoScalingGroups().stream().map(asg -> new AsgDTO(
+                asg.autoScalingGroupARN(),
                 asg.autoScalingGroupName(),
+                awsRegion,
+                asg.desiredCapacity(),
                 asg.minSize(),
                 asg.maxSize(),
-                asg.desiredCapacity()
+                asg.status()
         )).toList();
     }
 

@@ -1,7 +1,7 @@
 // axiosConfig.js or wherever axios is configured
 import axios from "axios";
 import { store } from "../redux/store";
-import { logout } from "../redux/actions";
+import { logout } from "../redux/actions/authActions";
 import { toast } from "react-toastify";
 
 axios.defaults.baseURL = "http://localhost:8082/api";

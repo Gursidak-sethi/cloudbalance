@@ -7,7 +7,7 @@ import EditUserConfig from "../../configs/EditUserFormConfig";
 import Input from "../Input/Input";
 import SingleSelectDropDown from "../DropDowns/SingleSelectDropDown/SingleSelectDropDown";
 import MultiSelectDropDown from "../DropDowns/MultiSelectDropDown/MultiSelectDropDown";
-import SubmitBtn from "../SubmitBtn/SubmitBtn";
+import Button from "../Button/Button";
 const EditUser = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -133,7 +133,7 @@ const EditUser = () => {
               {EditUserConfig.map((field) => (
                 <div key={field.id}>
                   <Input
-                    width={300}
+                    width={250}
                     type={field.properties.type}
                     id={field.id}
                     name={field.properties.name}
@@ -146,7 +146,7 @@ const EditUser = () => {
               ))}
 
               <SingleSelectDropDown
-                roles={["ADMIN", "READ_ONLY", "CUSTOMER"]}
+                options={["ADMIN", "READ_ONLY", "CUSTOMER"]}
                 value={currentState.role}
                 onChange={handleChange}
               />
@@ -160,7 +160,7 @@ const EditUser = () => {
                 />
               )}
 
-              <SubmitBtn text={"Update"} height={30} width={80} />
+              <Button text={"Update"} type={"submit"} btnStyle={"editBtn"} />
             </form>
           </div>
         </div>
