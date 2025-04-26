@@ -12,7 +12,7 @@ const AwsScreen = () => {
   const [resources, setResources] = useState([]);
   const [loading, setLoading] = useState(true);
   const selectedAccount = useSelector(
-    (state) => state.account.selectedAccountId
+    (state) => state.account.selectedAwsAccountId
   );
 
   const resourceTableConfig = {

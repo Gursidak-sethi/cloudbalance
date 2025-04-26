@@ -8,7 +8,11 @@ import styles from "./Navbar.module.css";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AccountDropDown from "../DropDowns/AccountDropDown/AccountDropDown";
 import axios from "axios";
-import { setAccount } from "../../redux/actions/accountActions";
+import {
+  setAccount,
+  setAwsAccount,
+  setCaAccount,
+} from "../../redux/actions/accountActions";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -18,9 +22,14 @@ const Navbar = () => {
   const [loading, setLoading] = useState(false);
 
   // Load selectedAccount from localStorage if exists
-  const [selectedAccount, setSelectedAccount] = useState(() => {
+  const [selectedAwsAccount, setSelectedAwsAccount] = useState(() => {
     return (
-      localStorage.getItem("selectedAccountId") || currentUser.accounts?.[0]
+      localStorage.getItem("selectedAwsAccountId") || currentUser.accounts?.[0]
+    );
+  });
+  const [selectedCaAccount, setSelectedCaAccount] = useState(() => {
+    return (
+      localStorage.getItem("selectedCaAccountId") || currentUser.accounts?.[0]
     );
   });
 
@@ -44,16 +53,25 @@ const Navbar = () => {
 
         setAccounts(fetchedAccounts);
 
-        const savedAccountId = localStorage.getItem("selectedAccountId");
-        const validAccount = fetchedAccounts.find(
-          (acc) => acc.accountId === savedAccountId
+        const savedAwsAccountId = localStorage.getItem("selectedAwsAccountId");
+        const savedCaAccountId = localStorage.getItem("selectedCaAccountId");
+        const validAwsAccount = fetchedAccounts.find(
+          (acc) => acc.accountId === savedAwsAccountId
+        );
+        const validCaAccount = fetchedAccounts.find(
+          (acc) => acc.accountId === savedCaAccountId
         );
 
-        const newSelected =
-          validAccount?.accountId || fetchedAccounts[0]?.accountId;
+        const newAwsSelected =
+          validAwsAccount?.accountId || fetchedAccounts[0]?.accountId;
+        const newCaSelected =
+          validCaAccount?.accountId || fetchedAccounts[0]?.accountId;
 
-        if (newSelected) {
-          setSelectedAccount(newSelected);
+        if (newAwsSelected) {
+          setSelectedAwsAccount(newAwsSelected);
+        }
+        if (newCaSelected) {
+          setSelectedCaAccount(newCaSelected);
         }
       } catch (error) {
         console.error("Failed to fetch accounts:", error);
@@ -62,7 +80,10 @@ const Navbar = () => {
       }
     };
 
-    if (location.pathname === "/dashboard/aws") {
+    if (
+      location.pathname === "/dashboard/aws" ||
+      location.pathname === "/dashboard/cost-analysis"
+    ) {
       fetchAccounts();
     }
   }, [location.pathname]);
@@ -70,28 +91,46 @@ const Navbar = () => {
   // Second effect: trigger when selectedAccount changes
   useEffect(() => {
     setLoading(true);
-    if (selectedAccount) {
-      localStorage.setItem("selectedAccountId", selectedAccount);
-      dispatch(setAccount(selectedAccount));
+
+    if (selectedAwsAccount) {
+      localStorage.setItem("selectedAwsAccountId", selectedAwsAccount);
+      dispatch(setAwsAccount(selectedAwsAccount));
+    }
+    if (selectedCaAccount) {
+      localStorage.setItem("selectedCaAccountId", selectedCaAccount);
+      dispatch(setCaAccount(selectedCaAccount));
     }
     setLoading(false);
-  }, [selectedAccount]);
+  }, [selectedAwsAccount, selectedCaAccount]);
 
   // Update selectedAccount in state and localStorage
-  const handleAccountChange = (newAccountId) => {
-    setSelectedAccount(newAccountId);
-    localStorage.setItem("selectedAccountId", newAccountId);
+  const handleAwsAccountChange = (newAccountId) => {
+    setSelectedAwsAccount(newAccountId);
+    localStorage.setItem("selectedAwsAccountId", newAccountId);
   };
 
+  const handleCaAccountChange = (newAccountId) => {
+    setSelectedCaAccount(newAccountId);
+    localStorage.setItem("selectedCaAccountId", newAccountId);
+  };
   return loading ? null : (
     <div className={styles.navbarContainer}>
       <div style={{ display: "flex", alignItems: "center", gap: 15 }}>
         <img src={logo} alt="CloudBalance" className={styles.logo} />
-        {location.pathname === "/dashboard/aws" && (
+        {(location.pathname === "/dashboard/aws" ||
+          location.pathname === "/dashboard/cost-analysis") && (
           <AccountDropDown
-            value={selectedAccount}
+            value={
+              location.pathname === "/dashboard/aws"
+                ? selectedAwsAccount
+                : selectedCaAccount
+            }
             accounts={accounts}
-            onChange={handleAccountChange}
+            onChange={
+              location.pathname === "/dashboard/aws"
+                ? handleAwsAccountChange
+                : handleCaAccountChange
+            }
           />
         )}
       </div>

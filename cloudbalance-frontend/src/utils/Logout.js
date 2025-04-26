@@ -19,7 +19,8 @@ const handleLogout = (dispatch, navigate) => {
   dispatch(logoutAction());
   // Remove from localStorage
   localStorage.removeItem("token");
-  localStorage.removeItem("selectedAccountId");
+  localStorage.removeItem("selectedAwsAccountId");
+  localStorage.removeItem("selectedCaAccountId");
   // toast.success("Logged Out successfully");
 
   if (navigate) navigate("/login");

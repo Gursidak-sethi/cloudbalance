@@ -6,7 +6,5 @@
 
 .dashboardContainer {
   background-color: #efefef;
-  width: 100%;
   padding: 10px;
-  /* height: calc(100vh - 160px); */
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class SnowflakeRepository {
@@ -16,20 +17,22 @@ public class SnowflakeRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    /**
-     * Fetches linked account IDs and their record counts from the cost_explorer table
-     * @return List of AccountCostCount objects containing linked account IDs and their record counts
-     */
+    // SnowflakeRepository.java
+    public List<String> getDistinctValuesForColumn(String column) {
+        String sql = String.format(
+                "SELECT DISTINCT %s FROM cost_explorer WHERE %s IS NOT NULL ORDER BY %s LIMIT 1000",
+                column, column, column
+        );
+        return jdbcTemplate.queryForList(sql, String.class);
+    }
 
-//    public List<AccountCostCount> getLinkedAccountCounts() {
-//        String query = "SELECT LINKEDACCOUNTID, COUNT(*) as COUNT FROM cost_explorer GROUP BY LINKEDACCOUNTID";
-//
-//        return jdbcTemplate.query(query, (rs, rowNum) -> {
-//            AccountCostCount accountCostCount = new AccountCostCount();
-//            accountCostCount.setLinkedAccountId(rs.getString("LINKEDACCOUNTID"));
-//            accountCostCount.setCount(rs.getLong("COUNT"));
-//            return accountCostCount;
-//        });
-//    }
+    public List<Map<String, Object>> getData() {
+        String sql = "SELECT * FROM cost_explorer LIMIT 1000";
+        return jdbcTemplate.queryForList(sql);
+    }
+
+    public List<Map<String, Object>> getCostAnalysisData(String req) {
+        return jdbcTemplate.queryForList(req);
+    }
 
 }

@@ -27,7 +27,10 @@ const DashboardLayout = () => {
       ) : null}
       <div
         className={styles.dashboardContainer}
-        style={{ marginLeft: isOpen ? "15%" : "5%" }}
+        style={{
+          marginLeft: isOpen ? "15%" : "5%",
+          width: isOpen ? "83.5%" : "93.5%",
+        }}
       >
         <Outlet />
       </div>

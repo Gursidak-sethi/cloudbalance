@@ -21,9 +21,6 @@ public class SnowflakeConfig {
     @Value("${snowflake.datasource.password}")
     private String password;
 
-    @Value("${snowflake.datasource.warehouse")
-    private String warehouse;
-
     @Value("${snowflake.datasource.driver-class-name}")
     private String driverClassName;
 
@@ -32,18 +29,11 @@ public class SnowflakeConfig {
         HikariDataSource dataSource = new HikariDataSource();
 
         String connectionUrl = url;
-        if (warehouse != null && !warehouse.isEmpty()) {
-            if (connectionUrl.contains("?")) {
-                connectionUrl += "&warehouse=" + warehouse;
-            } else {
-                connectionUrl += "?warehouse=" + warehouse;
-            }
-        }
 
         dataSource.setJdbcUrl(connectionUrl);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
-        dataSource.setDriverClassName("net.snowflake.client.jdbc.SnowflakeDriver");
+        dataSource.setDriverClassName(driverClassName);
 
         return dataSource;
     }

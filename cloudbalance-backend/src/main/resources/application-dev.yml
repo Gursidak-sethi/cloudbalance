@@ -14,8 +14,7 @@ aws:
 
 snowflake:
   datasource:
-    url: jdbc:snowflake://YFYRZGG-BWB35436.snowflakecomputing.com/?warehouse=COMPUTE_WH&db=aws&schema=cost
+    url: jdbc:snowflake://YFYRZGG-BWB35436.snowflakecomputing.com/?warehouse=SYSTEM$STREAMLIT_NOTEBOOK_WH&db=aws&schema=cost
     username: ro_user
     password: fRe$her@b00tc@mp2025
-    warehouse: COMPUTE_WH
     driver-class-name: net.snowflake.client.jdbc.SnowflakeDriver
