@@ -9,6 +9,7 @@ import FilterSidebar from "../../../components/FilterSidebar/FilterSidebar";
 import DateSelector from "../../../components/DateSelector/DateSelector";
 import Select from "../../../components/DropDowns/Select/Select";
 import MuiTable from "../../../components/Table/MuiTable";
+import TimelineIcon from "@mui/icons-material/Timeline";
 
 const CostExplorerScreen = () => {
   const [loading, setLoading] = useState(false);
@@ -179,7 +180,7 @@ const CostExplorerScreen = () => {
                     onChange={handleChartDisplay}
                   />
                 </div>
-                <div style={{ display: "flex", gap: 10 }}>
+                <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
                   <DateSelector
                     startMonth={startMonth}
                     startYear={startYear}
@@ -190,14 +191,26 @@ const CostExplorerScreen = () => {
                     setEndMonth={setEndMonth}
                     setEndYear={setEndYear}
                   />
-                  <button onClick={() => setShowFilters(!showFilters)}>
-                    {showFilters ? "Hide Filters" : "Show Filters"}
+                  <button
+                    onClick={() => setShowFilters(!showFilters)}
+                    style={{
+                      width: 35,
+                      height: 30,
+                      backgroundColor: "#4398D7",
+                      border: "none",
+                      borderRadius: 4,
+                    }}
+                  >
+                    <TimelineIcon style={{ color: "#fff" }} />
                   </button>
                 </div>
               </div>
               {isChartVisible.isColumn && <ColumnChart chartData={chartData} />}
               {isChartVisible.isLine && <LineChart chartData={chartData} />}
-              <MuiTable chartData={chartData.data} />
+              <MuiTable
+                chartData={chartData.data}
+                groupByKeyProp={selectedGroupBy}
+              />
             </div>
 
             {showFilters && (
