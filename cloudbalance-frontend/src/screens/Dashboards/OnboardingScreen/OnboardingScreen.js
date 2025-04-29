@@ -65,11 +65,11 @@ const OnboardingScreen = () => {
     // You can now POST onboardData to your API here.
     try {
       const response = await axios.post("/admin/account", onboardData);
-      toast.success(response.data);
+      toast.success(response.data.message);
       navigate("/dashboard/thankyou");
     } catch (e) {
       console.error("Error saving account: ", e.message);
-      toast.error("Couldn't save account! Retry");
+      toast.error(e.response?.data?.message || "Couldn't save account! Retry");
     }
     dispatch(resetForm());
   };

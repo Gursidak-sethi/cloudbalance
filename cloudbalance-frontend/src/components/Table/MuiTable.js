@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Table,
   TableBody,
@@ -11,8 +11,12 @@ import {
 } from "@mui/material";
 import * as XLSX from "xlsx";
 import excel from "../../images/excel.png";
+import SearchBar from "../SearchBar/SearchBar";
 
 const MuiTable = ({ chartData, groupByKeyProp }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Process data for grouping by key and months
   const processedData = useMemo(() => {
     if (!chartData || chartData.length === 0) return null;
 
@@ -27,7 +31,7 @@ const MuiTable = ({ chartData, groupByKeyProp }) => {
     const groupedRows = {};
 
     chartData.forEach((item) => {
-      const groupValue = item[groupByKey] || "N/A";
+      const groupValue = item[groupByKey] || "Unknown";
       const month = item.USAGE_DATE;
       const cost = item.TOTAL_USAGE_COST ?? 0;
 
@@ -45,6 +49,40 @@ const MuiTable = ({ chartData, groupByKeyProp }) => {
     const months = Array.from(monthSet).sort();
     return { groupByKey, months, groupedRows };
   }, [chartData, groupByKeyProp]);
+
+  // Filter data based on search term
+  const filteredData = useMemo(() => {
+    if (!searchTerm || !processedData) return processedData;
+
+    const { groupByKey, months, groupedRows } = processedData;
+
+    const filteredRows = {};
+    Object.entries(groupedRows).forEach(([groupValue, monthData]) => {
+      if (groupValue.toLowerCase().includes(searchTerm.toLowerCase())) {
+        filteredRows[groupValue] = monthData;
+      } else {
+        const filteredMonthData = Object.keys(monthData).reduce(
+          (acc, month) => {
+            if (
+              monthData[month]
+                .toString()
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+            ) {
+              acc[month] = monthData[month];
+            }
+            return acc;
+          },
+          {}
+        );
+        if (Object.keys(filteredMonthData).length > 0) {
+          filteredRows[groupValue] = filteredMonthData;
+        }
+      }
+    });
+
+    return { groupByKey, months, groupedRows: filteredRows };
+  }, [searchTerm, processedData]);
 
   const downloadExcel = () => {
     if (!processedData) return;
@@ -74,15 +112,45 @@ const MuiTable = ({ chartData, groupByKeyProp }) => {
     XLSX.writeFile(workbook, "cost_analysis.xlsx");
   };
 
-  if (!processedData) {
-    return <div>No data available</div>;
-  }
+  const renderNoDataRow = () => (
+    <TableRow>
+      <TableCell colSpan={3} align="center">
+        No data available
+      </TableCell>
+    </TableRow>
+  );
 
-  const { groupByKey, months, groupedRows } = processedData;
+  const renderTableRows = () => {
+    const { groupByKey, months, groupedRows } = filteredData;
+
+    return Object.entries(groupedRows).map(([groupValue, monthData], idx) => {
+      const totalCost = months.reduce((sum, month) => {
+        const val = monthData[month];
+        return sum + (val !== undefined ? val : 0);
+      }, 0);
+
+      return (
+        <TableRow key={idx}>
+          <TableCell>{groupValue}</TableCell>
+          {months.map((month) => (
+            <TableCell key={`${month}-${groupValue}`}>
+              {monthData[month] !== undefined
+                ? monthData[month].toFixed(2)
+                : "-"}
+            </TableCell>
+          ))}
+          <TableCell>{totalCost > 0 ? totalCost.toFixed(2) : "-"}</TableCell>
+        </TableRow>
+      );
+    });
+  };
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
 
   return (
     <div style={{ overflowX: "auto", position: "relative" }}>
-      {/* Download button */}
       <div
         style={{
           display: "flex",
@@ -91,22 +159,29 @@ const MuiTable = ({ chartData, groupByKeyProp }) => {
         }}
       >
         <Button onClick={downloadExcel}>
-          <img src={excel} alt="excel" style={{ height: 30 }} />
+          <img
+            src={excel}
+            alt="excel"
+            style={{ height: 30, cursor: "pointer" }}
+            title="Download excel for below table"
+          />
         </Button>
+        <SearchBar onSearch={handleSearch} />
       </div>
-
       <TableContainer component={Paper}>
         <Table stickyHeader sx={{ border: "1px solid #e1e1e1" }}>
           <TableHead>
             <TableRow>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }}>
-                {groupByKey}
+                {processedData ? processedData.groupByKey : "Group"}
               </TableCell>
-              {months.map((month) => (
-                <TableCell key={month} sx={{ backgroundColor: "#f0f0f0" }}>
-                  {month}
-                </TableCell>
-              ))}
+              {processedData
+                ? processedData.months.map((month) => (
+                    <TableCell key={month} sx={{ backgroundColor: "#f0f0f0" }}>
+                      {month}
+                    </TableCell>
+                  ))
+                : null}
               <TableCell sx={{ backgroundColor: "#f0f0f0" }}>
                 Total Cost
               </TableCell>
@@ -114,28 +189,9 @@ const MuiTable = ({ chartData, groupByKeyProp }) => {
           </TableHead>
 
           <TableBody>
-            {Object.entries(groupedRows).map(([groupValue, monthData], idx) => {
-              const totalCost = months.reduce((sum, month) => {
-                const val = monthData[month];
-                return sum + (val !== undefined ? val : 0);
-              }, 0);
-
-              return (
-                <TableRow key={idx}>
-                  <TableCell>{groupValue}</TableCell>
-                  {months.map((month) => (
-                    <TableCell key={`${month}-${groupValue}`}>
-                      {monthData[month] !== undefined
-                        ? monthData[month].toFixed(2)
-                        : "-"}
-                    </TableCell>
-                  ))}
-                  <TableCell>
-                    {totalCost > 0 ? totalCost.toFixed(2) : "-"}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            {filteredData && Object.entries(filteredData.groupedRows).length
+              ? renderTableRows()
+              : renderNoDataRow()}
           </TableBody>
         </Table>
       </TableContainer>

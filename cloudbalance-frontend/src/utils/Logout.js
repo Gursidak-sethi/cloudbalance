@@ -1,19 +1,24 @@
 // utils/handleLogout.js
 import axios from "axios";
 import { logout as logoutAction } from "../redux/actions/authActions";
+import { toast } from "react-toastify";
 
 const handleLogout = (dispatch, navigate) => {
   const token = localStorage.getItem("token");
   //Blacklist token from backend
-  axios.post(
-    "/auth/logout",
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  try {
+    axios.post(
+      "/auth/logout",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (err) {
+    toast.error(err.response.data.message);
+  }
 
   // Remove from Redux
   dispatch(logoutAction());
@@ -21,7 +26,6 @@ const handleLogout = (dispatch, navigate) => {
   localStorage.removeItem("token");
   localStorage.removeItem("selectedAwsAccountId");
   localStorage.removeItem("selectedCaAccountId");
-  // toast.success("Logged Out successfully");
 
   if (navigate) navigate("/login");
   else window.location.href = "/login";

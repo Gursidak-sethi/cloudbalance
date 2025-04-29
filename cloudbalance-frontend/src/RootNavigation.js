@@ -16,6 +16,8 @@ import { toast } from "react-toastify";
 import UserInit from "./Routes/UserInit";
 import Thankyou from "./Routes/Thankyou";
 import EditUser from "./components/EditUser/EditUser";
+import InvalidRoute from "./Routes/InvalidRoute";
+import DashboardRedirect from "./Routes/DashboardRedirect";
 
 const RootNavigation = () => {
   const [loading, setLoading] = useState(true);
@@ -30,11 +32,13 @@ const RootNavigation = () => {
     }
     const fetchUser = async () => {
       try {
-        const { data: user } = await axios.get("/auth/me");
+        const {
+          data: { body: user },
+        } = await axios.get("/auth/me");
         dispatch(setCurrentUser(user));
       } catch (e) {
         console.error("Error fetching users: ", e);
-        toast.error("Couldn't fetch users!");
+        toast.error(e.response?.data?.message);
       } finally {
         setLoading(false);
       }
@@ -54,16 +58,32 @@ const RootNavigation = () => {
         }
       >
         <Route path="/dashboard" element={<Dashboard />}>
-          <Route path="user-management" element={<ManagementScreen />} />
-          <Route path="user-management/create" element={<AddUser />} />
-          <Route path="user-management/update" element={<EditUser />} />
-          <Route path="onboarding" element={<OnboardingScreen />} />
+          <Route index element={<DashboardRedirect />} />
           <Route path="cost-analysis" element={<CostExplorerScreen />} />
           <Route path="aws" element={<AwsScreen />} />
           <Route path="thankyou" element={<Thankyou />} />
         </Route>
       </Route>
+      cost-analysis
+      {/* Admin-Only Routes */}
+      <Route
+        element={<ProtectedRoutes allowedRoles={["ADMIN", "READ_ONLY"]} />}
+      >
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route index element={<DashboardRedirect />} />
+          <Route path="user-management" element={<ManagementScreen />} />
+          <Route path="onboarding" element={<OnboardingScreen />} />
+        </Route>
+      </Route>
+      <Route element={<ProtectedRoutes allowedRoles={["ADMIN"]} />}>
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route index element={<DashboardRedirect />} />
+          <Route path="user-management/update" element={<EditUser />} />
+          <Route path="user-management/create" element={<AddUser />} />
+        </Route>
+      </Route>
       <Route path="/unauthorized" element={<Unauthorized />} />
+      <Route path="*" element={<InvalidRoute />} />
     </Routes>
   );
 };

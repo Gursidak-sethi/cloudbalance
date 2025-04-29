@@ -6,10 +6,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import styles from "./AwsScreen.module.css";
 import Button from "../../../components/Button/Button";
+import SearchBar from "../../../components/SearchBar/SearchBar";
 
 const AwsScreen = () => {
   const [selectedResource, setSelectedResource] = useState("ec2");
   const [resources, setResources] = useState([]);
+  const [filteredResources, setFilteredResources] = useState([]);
   const [loading, setLoading] = useState(true);
   const selectedAccount = useSelector(
     (state) => state.account.selectedAwsAccountId
@@ -31,6 +33,7 @@ const AwsScreen = () => {
             `/aws/${selectedAccount}?type=${selectedResource}`
           );
           setResources(response.data);
+          setFilteredResources(response.data);
         }
       } catch (e) {
         toast.error("Couldn't fetch resources");
@@ -41,6 +44,44 @@ const AwsScreen = () => {
     };
     fetchResources();
   }, [selectedResource, selectedAccount]);
+
+  // Handle search functionality
+  const handleSearch = (searchTerm) => {
+    if (!searchTerm) {
+      setFilteredResources(resources); // Reset to all resources if search term is empty
+    } else {
+      const lowercasedTerm = searchTerm.toLowerCase();
+      const filteredData = resources.filter((resource) => {
+        // Common fields for all resource types
+        const commonFields =
+          resource.resourceId.toLowerCase().includes(lowercasedTerm) ||
+          resource.resourceName.toLowerCase().includes(lowercasedTerm) ||
+          resource.region.toLowerCase().includes(lowercasedTerm) ||
+          resource.status.toLowerCase().includes(lowercasedTerm);
+
+        // Additional fields for RDS
+        if (selectedResource === "rds") {
+          return (
+            commonFields ||
+            resource.engine.toLowerCase().includes(lowercasedTerm)
+          );
+        }
+
+        // Additional fields for ASG
+        if (selectedResource === "asg") {
+          return (
+            commonFields ||
+            resource.desiredCapacity.toString().includes(lowercasedTerm) ||
+            resource.minSize.toString().includes(lowercasedTerm) ||
+            resource.maxSize.toString().includes(lowercasedTerm)
+          );
+        }
+
+        return commonFields;
+      });
+      setFilteredResources(filteredData);
+    }
+  };
 
   return (
     <div className={styles.awsContainer}>
@@ -68,13 +109,23 @@ const AwsScreen = () => {
         </div>
       </div>
       <div className={styles.awsTableContainer}>
-        <h2 style={{ fontSize: 18 }}>Resources</h2>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2 style={{ fontSize: 18 }}>Resources</h2>
+          <SearchBar onSearch={handleSearch} />
+        </div>
+
         {loading ? (
           "Loading..."
         ) : (
           <Table
             tableConfig={resourceTableConfig[selectedResource]}
-            data={resources}
+            data={filteredResources}
           />
         )}
       </div>

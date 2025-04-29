@@ -106,7 +106,7 @@ const AddUser = () => {
     try {
       const response = await axios.post("/admin/user", requestBody);
       console.log(response);
-      toast.success(response.data);
+      toast.success(response.data.message);
       setCurrentState({
         username: "",
         firstName: "",
@@ -120,7 +120,7 @@ const AddUser = () => {
       });
       navigate("/dashboard/user-management");
     } catch (e) {
-      toast.error(e.response ? e.response.data : "Error saving user!");
+      toast.error(e.response ? e.response.data.message : "Error saving user!");
       console.error(e.response);
     }
   };

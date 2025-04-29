@@ -5,7 +5,7 @@ import axios from "axios";
 import styles from "./LoginScreen.module.css";
 import logo from "../../images/logo.png";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { replace, useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 
 const LoginScreen = () => {
@@ -66,12 +66,12 @@ const LoginScreen = () => {
         password: enteredData.password,
       });
 
-      const token = response.data.token;
-      console.log("Got token after login: ", token);
+      const token = response.data.body.token;
+      console.log(response.data, token);
       localStorage.setItem("token", token);
 
-      navigate("/");
-      toast.success("Login Success!");
+      navigate("/", { replace: true });
+      toast.success(response.data.message);
 
       setEnteredData({
         username: "",
@@ -83,7 +83,6 @@ const LoginScreen = () => {
       });
     } catch (error) {
       console.error("Login or /me failed:", error);
-      toast.error("Login failed or user data could not be fetched.");
     }
   };
 

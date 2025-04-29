@@ -9,7 +9,8 @@ import FilterSidebar from "../../../components/FilterSidebar/FilterSidebar";
 import DateSelector from "../../../components/DateSelector/DateSelector";
 import Select from "../../../components/DropDowns/Select/Select";
 import MuiTable from "../../../components/Table/MuiTable";
-import TimelineIcon from "@mui/icons-material/Timeline";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import { toast } from "react-toastify";
 
 const CostExplorerScreen = () => {
   const [loading, setLoading] = useState(false);
@@ -39,7 +40,7 @@ const CostExplorerScreen = () => {
     const fetchGroupByColumns = async () => {
       try {
         const response = await axios.get("/cost-analysis/groups");
-        const columns = response.data.map((item) => ({
+        const columns = response.data.body.map((item) => ({
           label: item.displayName,
           value: item.groupName.trim(),
         }));
@@ -52,6 +53,9 @@ const CostExplorerScreen = () => {
         });
         setFilters(initialFilters);
       } catch (error) {
+        toast.error(
+          error?.response?.data?.message || "failed to fetch columns"
+        );
         console.error("Failed to fetch group by columns", error);
       } finally {
         setLoading(false);
@@ -95,8 +99,10 @@ const CostExplorerScreen = () => {
     try {
       setLoading(true);
       const response = await axios.post("/cost-analysis/cost", requestBody);
-      setChartData(response.data);
+      setChartData(response.data.body);
     } catch (error) {
+      setChartData([]); // Clear old data
+      toast.error(error?.response?.data?.message || "Failed to fetch data");
       console.error("Failed to fetch data:", error);
     } finally {
       setLoading(false);
@@ -136,11 +142,12 @@ const CostExplorerScreen = () => {
         <div style={{ fontSize: 14, color: "#515151" }}>
           How to always be aware of cost and history.
         </div>
-        <div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div>Group By: </div>
           <GroupBy
             groupByColumns={groupByColumns}
             onSelect={(value) => {
-              setSelectedGroupBy(value); // directly set the value
+              setSelectedGroupBy(value);
             }}
           />
         </div>
@@ -199,16 +206,21 @@ const CostExplorerScreen = () => {
                       backgroundColor: "#4398D7",
                       border: "none",
                       borderRadius: 4,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
-                    <TimelineIcon style={{ color: "#fff" }} />
+                    <FilterListIcon style={{ color: "#fff" }} />
                   </button>
                 </div>
               </div>
-              {isChartVisible.isColumn && <ColumnChart chartData={chartData} />}
+              {isChartVisible.isColumn && (
+                <ColumnChart chartData={chartData} groupKey={selectedGroupBy} />
+              )}
               {isChartVisible.isLine && <LineChart chartData={chartData} />}
               <MuiTable
-                chartData={chartData.data}
+                chartData={chartData}
                 groupByKeyProp={selectedGroupBy}
               />
             </div>

@@ -106,7 +106,7 @@ const EditUser = () => {
 
     try {
       const response = await axios.put("/admin/user", requestBody);
-      toast.success(response.data);
+      toast.success(response.data.message);
       setCurrentState({
         username: "",
         firstName: "",
@@ -118,7 +118,7 @@ const EditUser = () => {
       });
       navigate("/dashboard/user-management");
     } catch (e) {
-      toast.error(e.response?.data || "Error saving user!");
+      toast.error(e.response?.data?.message || "Error saving user!");
       console.error(e);
     }
   };

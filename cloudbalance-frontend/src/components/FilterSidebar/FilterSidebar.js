@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const FilterSidebar = ({
   filters,
@@ -42,10 +43,11 @@ const FilterSidebar = ({
       const res = await axios.get(`/cost-analysis/filters/${column}`);
       setFilters((prevFilters) => ({
         ...prevFilters,
-        [column]: res.data || [],
+        [column]: res.data.body || [],
       }));
     } catch (err) {
       console.error(`Failed to load filters for ${column}`, err);
+      toast.error(err?.response?.data?.message || "Failed to load filters");
     } finally {
       setLoadingSection(null);
     }

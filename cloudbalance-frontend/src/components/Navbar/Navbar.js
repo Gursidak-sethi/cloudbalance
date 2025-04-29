@@ -13,6 +13,7 @@ import {
   setAwsAccount,
   setCaAccount,
 } from "../../redux/actions/accountActions";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ const Navbar = () => {
           currentUser?.role === "READ_ONLY"
         ) {
           const response = await axios.get("/admin/account");
-          fetchedAccounts = response.data;
+          fetchedAccounts = response.data.body;
         } else if (currentUser?.role === "CUSTOMER") {
           fetchedAccounts = currentUser?.accounts || [];
         }
@@ -75,6 +76,9 @@ const Navbar = () => {
         }
       } catch (error) {
         console.error("Failed to fetch accounts:", error);
+        toast.error(
+          error?.response?.data?.message || "Failed to fetch accounts"
+        );
       } finally {
         setLoading(false);
       }

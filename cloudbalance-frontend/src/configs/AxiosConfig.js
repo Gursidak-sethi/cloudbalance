@@ -21,7 +21,7 @@ axios.interceptors.response.use(
   (res) => res,
   (err) => {
     if (err.response && err.response.status === 401) {
-      toast.error("Session expired. Please login again.");
+      toast.error(err?.response?.data?.message);
       localStorage.removeItem("token");
       localStorage.removeItem("currentUser");
       store.dispatch(logout());

@@ -16,7 +16,9 @@ const UserInit = () => {
         setLoading(true);
         const token = localStorage.getItem("token");
         console.log("extracting token in dashboard from localstorage", token);
-        const { data: user } = await axios.get("/auth/me");
+        const {
+          data: { body: user },
+        } = await axios.get("/auth/me");
         dispatch(setCurrentUser(user));
 
         if (user.role === "ADMIN" || user.role === "READ_ONLY") {
@@ -29,6 +31,7 @@ const UserInit = () => {
         }
       } catch (e) {
         console.error("Error fetching user in homescreen/dashboard: ", e);
+        toast.error(e.response?.data?.message || "Error fetching current user");
       } finally {
         setLoading(false);
       }

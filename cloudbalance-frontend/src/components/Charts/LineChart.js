@@ -2,15 +2,15 @@ import React, { useEffect } from "react";
 import FusionCharts from "fusioncharts";
 import Charts from "fusioncharts/fusioncharts.charts";
 import ReactFC from "react-fusioncharts";
+import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 
-ReactFC.fcRoot(FusionCharts, Charts);
+ReactFC.fcRoot(FusionCharts, Charts, FusionTheme);
 
 const LineChart = ({ chartData }) => {
-  if (!chartData.data || chartData.data.length === 0)
-    return <div>No data available</div>;
+  // if (!chartData || chartData.length === 0) return <div>No data available</div>;
 
-  const sample = chartData.data[0];
-  console.log("chartData.data: ", chartData.data);
+  const sample = chartData[0];
+  console.log("chartData: ", chartData);
   console.log("sample: ", sample);
   const groupKey = Object.keys(sample).find(
     (key) => key !== "USAGE_DATE" && key !== "TOTAL_USAGE_COST"
@@ -19,7 +19,7 @@ const LineChart = ({ chartData }) => {
   if (!groupKey) return <div>Invalid data format</div>;
 
   // Group by date
-  const groupByDate = chartData.data.reduce((acc, item) => {
+  const groupByDate = chartData.reduce((acc, item) => {
     const date = item.USAGE_DATE ?? "Others"; // Handle missing dates too
     const group = item[groupKey] ?? "Others"; // Handle null group names
     if (!acc[date]) acc[date] = {};
@@ -29,7 +29,7 @@ const LineChart = ({ chartData }) => {
 
   const allDates = Object.keys(groupByDate);
   const allGroups = Array.from(
-    new Set(chartData.data.map((item) => item[groupKey] ?? "Others"))
+    new Set(chartData.map((item) => item[groupKey] ?? "Others"))
   );
 
   const categories = [
@@ -56,7 +56,7 @@ const LineChart = ({ chartData }) => {
         xAxisName: "Date",
         yAxisName: "Cost (USD)",
         numberPrefix: "$",
-        theme: "fusion",
+        theme: "candy",
         bgColor: "#f4f4f4",
         canvasBgColor: "#ffffff",
         canvasBorderAlpha: "0",

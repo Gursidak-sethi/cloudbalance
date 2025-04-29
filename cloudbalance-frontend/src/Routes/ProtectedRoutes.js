@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 
 const ProtectedRoutes = ({ allowedRoles }) => {
+  debugger;
   const { currentUser } = useSelector((state) => state.auth);
   console.log("Current user in Protected Routes: ", currentUser);
 

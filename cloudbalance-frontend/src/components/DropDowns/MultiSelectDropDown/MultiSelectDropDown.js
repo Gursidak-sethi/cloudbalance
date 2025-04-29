@@ -16,7 +16,7 @@ const MultiSelectDropDown = ({ allAccounts, value = [], onChange }) => {
     const fetchAccounts = async () => {
       try {
         const response = await allAccounts();
-        const accounts = response.data;
+        const accounts = response.data.body;
 
         // Filter out any that are already assigned (based on accountId)
         const orphanedAccounts = accounts.filter(
