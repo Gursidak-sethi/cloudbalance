@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
+import { requestRole } from "../../utils/Mapper";
 
 const AddUser = () => {
   const navigate = useNavigate();
@@ -22,12 +23,6 @@ const AddUser = () => {
     confirmPassword: "",
     errors: {},
   });
-
-  const requestRole = {
-    "Admin": "ADMIN",
-    "Read Only": "READ_ONLY",
-    "Customer": "CUSTOMER",
-  };
 
   const validateField = (name, value, compareWith = "") => {
     if (!value && name !== "accounts") return "Field cannot be empty!";

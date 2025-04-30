@@ -5,15 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userManagementTable } from "../../configs/TableConfig";
 import Table from "../Table/Table";
+import { displayRole } from "../../utils/Mapper";
 const UserList = ({ users }) => {
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.auth.currentUser);
-
-  const displayRole = {
-    "ADMIN": "Admin",
-    "READ_ONLY": "Read Only",
-    "CUSTOMER": "Customer",
-  };
 
   const formatDate = (responseDate) => {
     if (!responseDate) return "-";

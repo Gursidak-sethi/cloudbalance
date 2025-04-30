@@ -8,6 +8,7 @@ import Input from "../Input/Input";
 import SingleSelectDropDown from "../DropDowns/SingleSelectDropDown/SingleSelectDropDown";
 import MultiSelectDropDown from "../DropDowns/MultiSelectDropDown/MultiSelectDropDown";
 import Button from "../Button/Button";
+import { requestRole } from "../../utils/Mapper";
 const EditUser = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,12 +26,6 @@ const EditUser = () => {
   });
 
   console.log("Current State User: ", currentState);
-
-  const requestRole = {
-    "Admin": "ADMIN",
-    "Read Only": "READ_ONLY",
-    "Customer": "CUSTOMER",
-  };
 
   const validateField = (name, value) => {
     if (!value && name !== "accounts") return "Field cannot be empty!";

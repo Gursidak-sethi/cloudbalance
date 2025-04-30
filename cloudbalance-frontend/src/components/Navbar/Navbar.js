@@ -1,7 +1,7 @@
 // components/Navbar.jsx
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import handleLogout from "../../utils/Logout";
 import logo from "../../images/logo.png";
 import styles from "./Navbar.module.css";
@@ -9,11 +9,11 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AccountDropDown from "../DropDowns/AccountDropDown/AccountDropDown";
 import axios from "axios";
 import {
-  setAccount,
   setAwsAccount,
   setCaAccount,
 } from "../../redux/actions/accountActions";
 import { toast } from "react-toastify";
+import { displayRole } from "../../utils/Mapper";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -120,7 +120,9 @@ const Navbar = () => {
   return loading ? null : (
     <div className={styles.navbarContainer}>
       <div style={{ display: "flex", alignItems: "center", gap: 15 }}>
-        <img src={logo} alt="CloudBalance" className={styles.logo} />
+        <Link to={"/"}>
+          <img src={logo} alt="CloudBalance" className={styles.logo} />
+        </Link>
         {(location.pathname === "/dashboard/aws" ||
           location.pathname === "/dashboard/cost-analysis") && (
           <AccountDropDown
@@ -150,7 +152,7 @@ const Navbar = () => {
           <AccountCircleIcon style={{ fontSize: 36 }} />
           <div>
             <div>{currentUser?.username}</div>
-            <div style={{ fontSize: 12 }}>{currentUser?.role}</div>
+            <div style={{ fontSize: 12 }}>{displayRole[currentUser?.role]}</div>
           </div>
         </div>
         <button

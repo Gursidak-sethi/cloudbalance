@@ -16,3 +16,15 @@ export const IconMapper = {
   "COST_EXPLORER": <MemoryIcon />,
   "AWS": <BarChartIcon />,
 };
+
+export const requestRole = {
+  "Admin": "ADMIN",
+  "Read Only": "READ_ONLY",
+  "Customer": "CUSTOMER",
+};
+
+export const displayRole = {
+  "ADMIN": "Admin",
+  "READ_ONLY": "Read Only",
+  "CUSTOMER": "Customer",
+};
