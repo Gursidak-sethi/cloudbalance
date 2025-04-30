@@ -26,6 +26,12 @@ const EditUser = () => {
 
   console.log("Current State User: ", currentState);
 
+  const requestRole = {
+    "Admin": "ADMIN",
+    "Read Only": "READ_ONLY",
+    "Customer": "CUSTOMER",
+  };
+
   const validateField = (name, value) => {
     if (!value && name !== "accounts") return "Field cannot be empty!";
     return "";
@@ -100,7 +106,7 @@ const EditUser = () => {
       firstName: currentState.firstName,
       lastName: currentState.lastName,
       email: currentState.email,
-      role: role,
+      role: requestRole[role],
       accounts: finalAccounts,
     };
 
@@ -146,7 +152,7 @@ const EditUser = () => {
               ))}
 
               <SingleSelectDropDown
-                options={["ADMIN", "READ_ONLY", "CUSTOMER"]}
+                options={["Admin", "Read Only", "Customer"]}
                 value={currentState.role}
                 onChange={handleChange}
               />

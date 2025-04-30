@@ -35,7 +35,8 @@ public class JWTFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);
             if (jwt == null) {
@@ -43,16 +44,15 @@ public class JWTFilter extends OncePerRequestFilter {
                 return;
             }
 
-            // Check if the token is blacklisted (revoked)
             if (blacklistTokenRepository.existsByToken(jwt)) {
-                throw new UnauthorizedException("Token has been revoked");
+                setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Token has been revoked");
+                return;
             }
 
             String username = jwtService.extractUsername(jwt);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-                // Validate JWT token
                 if (jwtService.validateJwtToken(jwt)) {
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(
@@ -62,22 +62,28 @@ public class JWTFilter extends OncePerRequestFilter {
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 } else {
-                    throw new UnauthorizedException("Invalid Token");
+                    setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
+                    return;
                 }
             }
 
         } catch (ExpiredJwtException e) {
-            logger.error("JWT Token has expired: " + e.getMessage());
-            throw new TokenExpiredException("JWT Token has expired. Please login again.");
-        } catch (InvalidTokenException e) {
-            logger.error("Invalid JWT Token: " + e.getMessage());
-            throw new InvalidTokenException("Invalid Token. Please check your token and try again.");
+            logger.error("JWT expired: " + e.getMessage());
+            setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "JWT token has expired. Please login again.");
+            return;
         } catch (Exception e) {
-            logger.error("JWT authentication failed: " + e.getMessage());
-            throw new UnauthorizedException( "JWT authentication failed: " + e.getMessage());
+            logger.error("JWT auth failed: " + e.getMessage());
+            setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "JWT authentication failed");
+            return;
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private void setErrorResponse(HttpServletResponse response, int status, String message) throws IOException {
+        response.setStatus(status);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"error\": \"" + message + "\"}");
     }
 
     // Extract JWT from Authorization header

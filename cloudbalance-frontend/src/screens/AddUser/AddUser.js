@@ -23,6 +23,12 @@ const AddUser = () => {
     errors: {},
   });
 
+  const requestRole = {
+    "Admin": "ADMIN",
+    "Read Only": "READ_ONLY",
+    "Customer": "CUSTOMER",
+  };
+
   const validateField = (name, value, compareWith = "") => {
     if (!value && name !== "accounts") return "Field cannot be empty!";
     if (name === "confirmPassword" && value !== compareWith) {
@@ -99,7 +105,7 @@ const AddUser = () => {
       lastName: currentState.lastName,
       email: currentState.email,
       password: currentState.password,
-      role: currentState.role,
+      role: requestRole[currentState.role],
       accounts: finalAccounts,
     };
 
@@ -152,7 +158,7 @@ const AddUser = () => {
                 </div>
               ))}
               <SingleSelectDropDown
-                options={["ADMIN", "READ_ONLY", "CUSTOMER"]}
+                options={["Admin", "Read Only", "Customer"]}
                 value={currentState.role}
                 onChange={handleChange}
               />

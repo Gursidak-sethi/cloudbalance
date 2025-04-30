@@ -3,6 +3,7 @@ package com.example.cloudbalance.cloudbalancebackend.utils;
 import com.example.cloudbalance.cloudbalancebackend.dto.request.UserDTO;
 import com.example.cloudbalance.cloudbalancebackend.entities.Role;
 import com.example.cloudbalance.cloudbalancebackend.entities.User;
+import com.example.cloudbalance.cloudbalancebackend.exceptions.customexceptions.BadRequestException;
 
 
 public class UserMapper {
@@ -13,8 +14,11 @@ public class UserMapper {
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
-        user.setRole(Role.valueOf(userDTO.getRole()));
-
+        try {
+            user.setRole(Role.valueOf(userDTO.getRole()));
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestException("Requested Role does not exists!");
+        }
         return user;
     }
 

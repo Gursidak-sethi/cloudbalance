@@ -8,6 +8,13 @@ import Table from "../Table/Table";
 const UserList = ({ users }) => {
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.auth.currentUser);
+
+  const displayRole = {
+    "ADMIN": "Admin",
+    "READ_ONLY": "Read Only",
+    "CUSTOMER": "Customer",
+  };
+
   const formatDate = (responseDate) => {
     if (!responseDate) return "-";
 
@@ -33,6 +40,7 @@ const UserList = ({ users }) => {
 
   const data = users?.map((user) => ({
     ...user,
+    role: displayRole[user.role],
     lastLoginFormatted: formatDate(user.lastLogin),
     actions: (
       <button

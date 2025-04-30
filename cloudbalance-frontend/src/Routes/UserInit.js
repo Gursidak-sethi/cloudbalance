@@ -31,7 +31,7 @@ const UserInit = () => {
         }
       } catch (e) {
         console.error("Error fetching user in homescreen/dashboard: ", e);
-        toast.error(e.response?.data?.message || "Error fetching current user");
+        // toast.error(e.response?.data?.message || "Error fetching current user");
       } finally {
         setLoading(false);
       }

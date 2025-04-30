@@ -6,6 +6,7 @@ import com.example.cloudbalance.cloudbalancebackend.dto.response.ApiResponseDTO;
 import com.example.cloudbalance.cloudbalancebackend.dto.response.UserInfoResponseDTO;
 import com.example.cloudbalance.cloudbalancebackend.entities.Account;
 import com.example.cloudbalance.cloudbalancebackend.entities.User;
+import com.example.cloudbalance.cloudbalancebackend.exceptions.customexceptions.ConflictException;
 import com.example.cloudbalance.cloudbalancebackend.exceptions.customexceptions.ResourceNotFoundException;
 import com.example.cloudbalance.cloudbalancebackend.repositories.AccountRepository;
 import com.example.cloudbalance.cloudbalancebackend.repositories.UserRepository;
@@ -35,10 +36,10 @@ public class UserManagementService {
         user.setAccounts(accounts);
         System.out.println(user);
         if(userRepository.existsByUsername(user.getUsername())){
-          throw new AccessDeniedException("Username already exists");
+          throw new ConflictException("Username already exists");
         }
         if(userRepository.existsByEmail(user.getEmail())){
-            throw new AccessDeniedException("Email already exists");
+            throw new ConflictException("Email already exists");
         }
         userRepository.save(user);
         return ResponseEntity.status(HttpServletResponse.SC_CREATED).body(new ApiResponseDTO<>(

@@ -2,6 +2,7 @@ package com.example.cloudbalance.cloudbalancebackend.exceptions;
 
 import com.example.cloudbalance.cloudbalancebackend.dto.response.ApiResponseDTO;
 import com.example.cloudbalance.cloudbalancebackend.exceptions.customexceptions.*;
+import net.snowflake.client.jdbc.internal.google.protobuf.Api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -11,6 +12,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ApiResponseDTO<?>> handleConflict(ConflictException ex){
+        return new ResponseEntity<>(new ApiResponseDTO<>(
+                HttpStatus.CONFLICT.value(),
+                ex.getMessage(),
+                null
+        ),HttpStatus.CONFLICT);
+    }
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ApiResponseDTO<?>> handleUnauthorized(UnauthorizedException ex) {
         return new ResponseEntity<>(
@@ -75,6 +85,15 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 null
         ), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ApiResponseDTO<?>> handleBadRequest(BadRequestException ex){
+        return new ResponseEntity<>(new ApiResponseDTO<>(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                null
+        ), HttpStatus.BAD_REQUEST);
     }
 
 
