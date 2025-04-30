@@ -8,7 +8,7 @@ import Input from "../Input/Input";
 import SingleSelectDropDown from "../DropDowns/SingleSelectDropDown/SingleSelectDropDown";
 import MultiSelectDropDown from "../DropDowns/MultiSelectDropDown/MultiSelectDropDown";
 import Button from "../Button/Button";
-import { requestRole } from "../../utils/Mapper";
+import { displayRole, requestRole } from "../../utils/Mapper";
 const EditUser = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -148,7 +148,7 @@ const EditUser = () => {
 
               <SingleSelectDropDown
                 options={["Admin", "Read Only", "Customer"]}
-                value={currentState.role}
+                value={displayRole[currentState.role]}
                 onChange={handleChange}
               />
 
