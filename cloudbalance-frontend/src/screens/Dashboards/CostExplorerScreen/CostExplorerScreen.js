@@ -7,10 +7,12 @@ import LineChart from "../../../components/Charts/LineChart";
 import GroupBy from "../../../components/GroupBy/GroupBy";
 import FilterSidebar from "../../../components/FilterSidebar/FilterSidebar";
 import DateSelector from "../../../components/DateSelector/DateSelector";
-import Select from "../../../components/DropDowns/Select/Select";
 import MuiTable from "../../../components/Table/MuiTable";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import TimelineIcon from "@mui/icons-material/Timeline";
 import { toast } from "react-toastify";
+import Button from "../../../components/Button/Button";
 
 const CostExplorerScreen = () => {
   const [loading, setLoading] = useState(false);
@@ -26,13 +28,13 @@ const CostExplorerScreen = () => {
     isColumn: true,
     isLine: false,
   });
-  const [startMonth, setStartMonth] = useState();
-  const [startYear, setStartYear] = useState();
-  const [endMonth, setEndMonth] = useState();
-  const [endYear, setEndYear] = useState();
+  // const [startYear, setStartYear] = useState();
+  // const [endYear, setEndYear] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
 
-  const selectedCaAccount = useSelector(
-    (state) => state.account.selectedCaAccountId
+  const selectedAccount = useSelector(
+    (state) => state.account.selectedAccountId
   );
 
   useEffect(() => {
@@ -67,33 +69,23 @@ const CostExplorerScreen = () => {
     const now = new Date();
     const currentMonth = (now.getMonth() + 1).toString().padStart(2, "0");
     const currentYear = now.getFullYear().toString();
-    setStartMonth(currentMonth);
-    setStartYear(currentYear);
-    setEndMonth(currentMonth);
-    setEndYear(currentYear);
+    setStartDate(`${currentYear}-${currentMonth}`);
+    setEndDate(`${currentYear}-${currentMonth}`);
   }, []);
 
   const createRequestBody = () => ({
-    accountId: selectedCaAccount,
+    accountId: selectedAccount,
     groupBy: selectedGroupBy,
     filters: selectedFilters,
-    startDate: `${startYear}-${startMonth}`,
-    endDate: `${endYear}-${endMonth}`,
+    startDate: startDate,
+    endDate: endDate,
   });
 
   const applyFilters = useCallback(() => {
     setUnsavedFilters(false);
     const requestBody = createRequestBody();
     fetchData(requestBody);
-  }, [
-    selectedFilters,
-    selectedCaAccount,
-    selectedGroupBy,
-    startMonth,
-    startYear,
-    endMonth,
-    endYear,
-  ]);
+  }, [selectedFilters, selectedAccount, selectedGroupBy, startDate, endDate]);
 
   const fetchData = useCallback(async (requestBody) => {
     try {
@@ -110,30 +102,22 @@ const CostExplorerScreen = () => {
   }, []);
 
   useEffect(() => {
-    if (!selectedCaAccount || !selectedGroupBy) return;
+    if (!selectedAccount || !selectedGroupBy) return;
     const requestBody = createRequestBody();
     fetchData(requestBody);
-  }, [
-    selectedCaAccount,
-    selectedGroupBy,
-    startMonth,
-    startYear,
-    endMonth,
-    endYear,
-    fetchData,
-  ]);
+  }, [selectedAccount, selectedGroupBy, startDate, endDate, fetchData]);
 
   useEffect(() => {
     setUnsavedFilters(true);
   }, [selectedFilters]);
 
-  const handleChartDisplay = (value) => {
-    setChartType(value);
-    setIsChartVisible({
-      isColumn: value === "Column" || value === "Both",
-      isLine: value === "Line" || value === "Both",
-    });
-  };
+  // const handleChartDisplay = (value) => {
+  //   setChartType(value);
+  //   setIsChartVisible({
+  //     isColumn: value === "Column" || value === "Both",
+  //     isLine: value === "Line" || value === "Both",
+  //   });
+  // };
 
   return (
     <div className={styles.caContainer}>
@@ -180,23 +164,41 @@ const CostExplorerScreen = () => {
                 }}
               >
                 <div>
-                  <Select
+                  {/* <Select
                     label={"Chart Type: "}
                     options={["Column", "Line", "Both"]}
                     value={chartType}
                     onChange={handleChartDisplay}
+                  /> */}
+                  <Button
+                    type={"button"}
+                    text={<BarChartIcon />}
+                    isActive={isChartVisible.isColumn}
+                    onClick={() =>
+                      setIsChartVisible((prev) => ({
+                        ...prev,
+                        isColumn: !isChartVisible.isColumn,
+                      }))
+                    }
+                  />
+                  <Button
+                    type={"button"}
+                    text={<TimelineIcon />}
+                    isActive={isChartVisible.isColumn}
+                    onClick={() =>
+                      setIsChartVisible((prev) => ({
+                        ...prev,
+                        isLine: !isChartVisible.isLine,
+                      }))
+                    }
                   />
                 </div>
                 <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
                   <DateSelector
-                    startMonth={startMonth}
-                    startYear={startYear}
-                    endMonth={endMonth}
-                    endYear={endYear}
-                    setStartMonth={setStartMonth}
-                    setStartYear={setStartYear}
-                    setEndMonth={setEndMonth}
-                    setEndYear={setEndYear}
+                    startDate={startDate}
+                    endDate={endDate}
+                    setStartDate={setStartDate}
+                    setEndDate={setEndDate}
                   />
                   <button
                     onClick={() => setShowFilters(!showFilters)}

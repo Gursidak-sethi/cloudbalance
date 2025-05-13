@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
-import { requestRole } from "../../utils/Mapper";
+import { displayRole, requestRole } from "../../utils/Mapper";
 
 const AddUser = () => {
   const navigate = useNavigate();
@@ -157,7 +157,7 @@ const AddUser = () => {
                 value={currentState.role}
                 onChange={handleChange}
               />
-              {currentState.role === "CUSTOMER" && (
+              {currentState.role === displayRole["CUSTOMER"] && (
                 <MultiSelectDropDown
                   allAccounts={handleAccounts}
                   value={currentState.accounts}

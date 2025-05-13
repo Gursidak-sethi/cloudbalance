@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LoginFormConfig } from "../../configs/FormConfig";
 import Input from "../../components/Input/Input";
 import axios from "axios";
@@ -17,7 +17,15 @@ const LoginScreen = () => {
       passwordError: "",
     },
   });
+
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) {
+      navigate("/", { replace: true });
+    }
+  }, [token]);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     let error = "";

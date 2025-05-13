@@ -1,60 +1,29 @@
 // src/components/DateRangeSelector/DateRangeSelector.js
 import React from "react";
-import Select from "../DropDowns/Select/Select"; // adjust the path based on your structure
+import Input from "../Input/Input";
 
-const months = [
-  "01",
-  "02",
-  "03",
-  "04",
-  "05",
-  "06",
-  "07",
-  "08",
-  "09",
-  "10",
-  "11",
-  "12",
-];
-
-const currentYear = new Date().getFullYear();
-const years = [currentYear, currentYear - 1, currentYear - 2].map(String);
-
-const DateSelector = ({
-  startMonth,
-  startYear,
-  endMonth,
-  endYear,
-  setStartMonth,
-  setStartYear,
-  setEndMonth,
-  setEndYear,
-}) => {
+const DateSelector = ({ startDate, setStartDate, endDate, setEndDate }) => {
   return (
-    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-      <Select
-        label="Start Month"
-        options={months}
-        value={startMonth}
-        onChange={setStartMonth}
+    <div style={{ display: "flex", gap: 15, flexWrap: "wrap" }}>
+      <Input
+        label={"Start Date"}
+        type={"month"}
+        name={"date"}
+        value={startDate}
+        onChange={(e) => setStartDate(e.target.value)}
+        height={20}
+        width={100}
+        styleName={"dates"}
       />
-      <Select
-        label="Start Year"
-        options={years}
-        value={startYear}
-        onChange={setStartYear}
-      />
-      <Select
-        label="End Month"
-        options={months}
-        value={endMonth}
-        onChange={setEndMonth}
-      />
-      <Select
-        label="End Year"
-        options={years}
-        value={endYear}
-        onChange={setEndYear}
+      <Input
+        label={"End Date"}
+        type={"month"}
+        name={"date"}
+        value={endDate}
+        onChange={(e) => setEndDate(e.target.value)}
+        height={20}
+        width={100}
+        styleName={"dates"}
       />
     </div>
   );

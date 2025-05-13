@@ -12,9 +12,11 @@ const Input = ({
   width,
   required = false,
   isOnboard = false,
+  styleName = "",
+  inputStyle = "",
 }) => {
   return (
-    <div className={styles.inputContainer}>
+    <div className={`${styles.inputContainer} ${styles[styleName]}`}>
       <label
         htmlFor={id}
         style={{
@@ -32,7 +34,7 @@ const Input = ({
         id={id}
         placeholder={placeholder}
         onChange={onChange}
-        className={styles.inputs}
+        className={`${styles.inputs} ${styles[inputStyle]}`}
         style={{ height: height ? height : 40, width: width ? width : 350 }}
       />
     </div>

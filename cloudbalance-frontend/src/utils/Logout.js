@@ -24,8 +24,7 @@ const handleLogout = (dispatch, navigate) => {
   dispatch(logoutAction());
   // Remove from localStorage
   localStorage.removeItem("token");
-  localStorage.removeItem("selectedAwsAccountId");
-  localStorage.removeItem("selectedCaAccountId");
+  localStorage.removeItem("selectedAccountId");
 
   if (navigate) navigate("/login");
   else window.location.href = "/login";

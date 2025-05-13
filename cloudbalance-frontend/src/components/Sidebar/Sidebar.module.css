@@ -3,14 +3,12 @@
   width: 15%;
   display: flex;
   flex-direction: column;
-  transition: all linear 0.1s;
   padding-top: 8px;
   position: fixed;
-  /* z-index: 2; */
 }
 
 .sidebarClosed {
-  width: 5%;
+  width: 2%;
 }
 
 .sidebarBtn {
@@ -30,7 +28,8 @@
   align-items: center;
   gap: 5px;
   height: 40px;
-  width: 100%;
+  width: 95%;
+  padding: 0 6px;
 }
 
 .dashboardLinks:hover {

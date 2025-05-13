@@ -7,13 +7,12 @@ import logo from "../../images/logo.png";
 import styles from "./Navbar.module.css";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AccountDropDown from "../DropDowns/AccountDropDown/AccountDropDown";
+import Select from "../DropDowns/Select/Select";
 import axios from "axios";
-import {
-  setAwsAccount,
-  setCaAccount,
-} from "../../redux/actions/accountActions";
+import { setAccount } from "../../redux/actions/accountActions";
 import { toast } from "react-toastify";
 import { displayRole } from "../../utils/Mapper";
+import Button from "../Button/Button";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -21,16 +20,12 @@ const Navbar = () => {
   const currentUser = useSelector((state) => state.auth.currentUser);
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showSwitchUser, setShowSwitchUser] = useState(false);
 
   // Load selectedAccount from localStorage if exists
-  const [selectedAwsAccount, setSelectedAwsAccount] = useState(() => {
+  const [selectedAccount, setSelectedAccount] = useState(() => {
     return (
-      localStorage.getItem("selectedAwsAccountId") || currentUser.accounts?.[0]
-    );
-  });
-  const [selectedCaAccount, setSelectedCaAccount] = useState(() => {
-    return (
-      localStorage.getItem("selectedCaAccountId") || currentUser.accounts?.[0]
+      localStorage.getItem("selectedAccountId") || currentUser.accounts?.[0]
     );
   });
 
@@ -54,25 +49,16 @@ const Navbar = () => {
 
         setAccounts(fetchedAccounts);
 
-        const savedAwsAccountId = localStorage.getItem("selectedAwsAccountId");
-        const savedCaAccountId = localStorage.getItem("selectedCaAccountId");
-        const validAwsAccount = fetchedAccounts.find(
-          (acc) => acc.accountId === savedAwsAccountId
-        );
-        const validCaAccount = fetchedAccounts.find(
-          (acc) => acc.accountId === savedCaAccountId
+        const savedAccountId = localStorage.getItem("selectedAccountId");
+        const validAccount = fetchedAccounts.find(
+          (acc) => acc.accountId === savedAccountId
         );
 
-        const newAwsSelected =
-          validAwsAccount?.accountId || fetchedAccounts[0]?.accountId;
-        const newCaSelected =
-          validCaAccount?.accountId || fetchedAccounts[0]?.accountId;
+        const newSelected =
+          validAccount?.accountId || fetchedAccounts[0]?.accountId;
 
-        if (newAwsSelected) {
-          setSelectedAwsAccount(newAwsSelected);
-        }
-        if (newCaSelected) {
-          setSelectedCaAccount(newCaSelected);
+        if (newSelected) {
+          setSelectedAccount(newSelected);
         }
       } catch (error) {
         console.error("Failed to fetch accounts:", error);
@@ -96,27 +82,19 @@ const Navbar = () => {
   useEffect(() => {
     setLoading(true);
 
-    if (selectedAwsAccount) {
-      localStorage.setItem("selectedAwsAccountId", selectedAwsAccount);
-      dispatch(setAwsAccount(selectedAwsAccount));
-    }
-    if (selectedCaAccount) {
-      localStorage.setItem("selectedCaAccountId", selectedCaAccount);
-      dispatch(setCaAccount(selectedCaAccount));
+    if (selectedAccount) {
+      localStorage.setItem("selectedAccountId", selectedAccount);
+      dispatch(setAccount(selectedAccount));
     }
     setLoading(false);
-  }, [selectedAwsAccount, selectedCaAccount]);
+  }, [selectedAccount]);
 
   // Update selectedAccount in state and localStorage
-  const handleAwsAccountChange = (newAccountId) => {
-    setSelectedAwsAccount(newAccountId);
-    localStorage.setItem("selectedAwsAccountId", newAccountId);
+  const handleAccountChange = (newAccountId) => {
+    setSelectedAccount(newAccountId);
+    localStorage.setItem("selectedAccountId", newAccountId);
   };
 
-  const handleCaAccountChange = (newAccountId) => {
-    setSelectedCaAccount(newAccountId);
-    localStorage.setItem("selectedCaAccountId", newAccountId);
-  };
   return loading ? null : (
     <div className={styles.navbarContainer}>
       <div style={{ display: "flex", alignItems: "center", gap: 15 }}>
@@ -126,17 +104,9 @@ const Navbar = () => {
         {(location.pathname === "/dashboard/aws" ||
           location.pathname === "/dashboard/cost-analysis") && (
           <AccountDropDown
-            value={
-              location.pathname === "/dashboard/aws"
-                ? selectedAwsAccount
-                : selectedCaAccount
-            }
+            value={selectedAccount}
             accounts={accounts}
-            onChange={
-              location.pathname === "/dashboard/aws"
-                ? handleAwsAccountChange
-                : handleCaAccountChange
-            }
+            onChange={handleAccountChange}
           />
         )}
       </div>
@@ -149,10 +119,59 @@ const Navbar = () => {
             alignItems: "center",
           }}
         >
-          <AccountCircleIcon style={{ fontSize: 36 }} />
+          <div
+            onClick={
+              currentUser.role === "ADMIN"
+                ? () => setShowSwitchUser(!showSwitchUser)
+                : null
+            }
+            style={{
+              cursor: currentUser.role === "ADMIN" ? "pointer" : "default",
+            }}
+          >
+            <AccountCircleIcon style={{ fontSize: 36 }} />
+          </div>
           <div>
-            <div>{currentUser?.username}</div>
-            <div style={{ fontSize: 12 }}>{displayRole[currentUser?.role]}</div>
+            <div
+              onClick={
+                currentUser.role === "ADMIN"
+                  ? () => setShowSwitchUser(!showSwitchUser)
+                  : null
+              }
+              style={{
+                cursor: currentUser.role === "ADMIN" ? "pointer" : "default",
+              }}
+            >
+              <div>{currentUser?.username}</div>
+              <div style={{ fontSize: 12 }}>
+                {!showSwitchUser && displayRole[currentUser?.role]}
+              </div>
+            </div>
+            {showSwitchUser && (
+              <div
+                style={{
+                  backgroundColor: "#fff",
+                  height: 50,
+                  width: 100,
+                  position: "absolute",
+                  marginTop: "6px",
+                  borderRadius: 4,
+                  boxShadow: "0 0 4px 4px rgb(0, 0, 0,0.2)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 16,
+                }}
+              >
+                {displayRole[currentUser?.role]}
+                <Button
+                  type={"button"}
+                  text={"Switch User"}
+                  btnStyle={"switchBtn"}
+                />
+              </div>
+            )}
           </div>
         </div>
         <button

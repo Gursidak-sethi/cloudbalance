@@ -50,6 +50,12 @@ public class AuthServiceImpl implements AuthService {
             if (authentication.isAuthenticated()) {
                 UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
                 String token = jwtService.generateToken(userDetails.getUsername(), userDetails.getAuthorities().toString());
+                User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow(()->
+                        new UsernameNotFoundException("User not found"));
+
+                user.setLastLogin(new Date());
+                userRepository.save(user);
+
                 LoginResponseDTO loginResponseDTO = new LoginResponseDTO(token);
                 return ResponseEntity.status(HttpServletResponse.SC_OK).body(new ApiResponseDTO<>(
                         HttpServletResponse.SC_OK,
@@ -66,13 +72,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             if (header != null && header.startsWith("Bearer ")) {
                 String token = header.substring(7);
-                String username = jwtService.extractUsername(token);
                 Date expiryDate = new Date();
-
-                User user = userRepository.findByUsername(username).orElseThrow(()->
-                        new UsernameNotFoundException("User not found"));
-                user.setLastLogin(expiryDate);
-                userRepository.save(user);
 
                 BlacklistToken blacklistToken = new BlacklistToken();
                 blacklistToken.setToken(token);

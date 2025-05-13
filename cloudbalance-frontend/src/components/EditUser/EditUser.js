@@ -9,12 +9,13 @@ import SingleSelectDropDown from "../DropDowns/SingleSelectDropDown/SingleSelect
 import MultiSelectDropDown from "../DropDowns/MultiSelectDropDown/MultiSelectDropDown";
 import Button from "../Button/Button";
 import { displayRole, requestRole } from "../../utils/Mapper";
+import { useSelector } from "react-redux";
 const EditUser = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const selectedUser = location.state?.user;
   console.log("Selected State User: ", selectedUser);
-
+  const currentUser = useSelector((state) => state.auth.currentUser);
   const [currentState, setCurrentState] = useState({
     username: selectedUser?.username || "",
     firstName: selectedUser?.firstName || "",
@@ -150,6 +151,7 @@ const EditUser = () => {
                 options={["Admin", "Read Only", "Customer"]}
                 value={displayRole[currentState.role]}
                 onChange={handleChange}
+                disable={currentUser.username === selectedUser.username}
               />
 
               {/* Show account dropdown only for CUSTOMER */}

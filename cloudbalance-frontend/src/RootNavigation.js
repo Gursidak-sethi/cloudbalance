@@ -18,6 +18,7 @@ import Thankyou from "./Routes/Thankyou";
 import EditUser from "./components/EditUser/EditUser";
 import InvalidRoute from "./Routes/InvalidRoute";
 import DashboardRedirect from "./Routes/DashboardRedirect";
+import SwitchUser from "./components/SwitchUser/SwitchUser";
 
 const RootNavigation = () => {
   const [loading, setLoading] = useState(true);
@@ -80,6 +81,7 @@ const RootNavigation = () => {
           <Route index element={<DashboardRedirect />} />
           <Route path="user-management/update" element={<EditUser />} />
           <Route path="user-management/create" element={<AddUser />} />
+          <Route path="switch-role" element={<SwitchUser />} />
         </Route>
       </Route>
       <Route path="/unauthorized" element={<Unauthorized />} />

@@ -5,10 +5,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
 const Sidebar = ({ isOpen, toggleSidebar, currentUser }) => {
   return (
-    <div
-      className={isOpen ? styles.sidebarOpen : styles.sidebarClosed}
-      style={{ alignItems: isOpen ? "flex-start" : "center" }}
-    >
+    <div className={isOpen ? styles.sidebarOpen : styles.sidebarClosed}>
       <button className={styles.sidebarBtn} onClick={toggleSidebar}>
         <MenuIcon />
       </button>
